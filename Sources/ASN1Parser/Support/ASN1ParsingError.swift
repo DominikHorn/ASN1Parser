@@ -8,7 +8,11 @@
 import Foundation
 
 enum ASN1ParsingError: Error {
-  case invalidTag
+  case unreadableTag
+  case derViolation
+  
   case invalidLength
-  case unimplemented(_ tag: ASN1TLV.Tag)
+  
+  // TODO(anyone): eliminate once this is no longer valid
+  case unimplementedValue
 }

@@ -2,10 +2,30 @@ import XCTest
 @testable import ASN1Parser
 
 final class ASN1ParserTests: XCTestCase {
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-        XCTAssertEqual(ASN1Parser().text, "Hello, World!")
+    func testParseBoolean() throws {
+      var val: ASN1Value?
+      
+      // false value
+      XCTAssertNoThrow(val = try ASN1Parser.parse(Data([0x01, 0x01, 0x00])))
+      XCTAssertNotNil(val)
+      XCTAssert(val is ASN1Boolean)
+      if let bool = val as? ASN1Boolean {
+        XCTAssert(false == bool.value)
+      }
+
+      // true value
+      XCTAssertNoThrow(val = try ASN1Parser.parse(Data([0x01, 0x01, 0x01])))
+      XCTAssertNotNil(val)
+      XCTAssert(val is ASN1Boolean)
+      if let bool = val as? ASN1Boolean {
+        XCTAssert(true == bool.value)
+      }
+      
+      // failed parsing
+      XCTAssertThrowsError(try ASN1Parser.parse(Data([0x01, 0x01, 0x02])))
+      XCTAssertThrowsError(try ASN1Parser.parse(Data([0x01, 0x01, 0x05])))
+      XCTAssertThrowsError(try ASN1Parser.parse(Data([0x01, 0x01, 0x10])))
+      XCTAssertThrowsError(try ASN1Parser.parse(Data([0x01, 0x01, 0xFE])))
+      XCTAssertThrowsError(try ASN1Parser.parse(Data([0x01, 0x01, 0xFF])))
     }
 }
