@@ -12,4 +12,7 @@ public struct ASN1Parser {
     var offset = data.startIndex
     return try parseTLV(data, offset: &offset)
   }
+  
+//  // TODO(dominik): implement visitor pattern for ASN1 tree
+//  public static func visit(_ value: ASN1Value, visitor: ASN1Visitor) {}
 }
