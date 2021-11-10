@@ -18,7 +18,7 @@ final class ParseValueTests: XCTestCase {
     XCTAssertNotNil(val)
     XCTAssert(val is ASN1Boolean)
     if let bool = val as? ASN1Boolean {
-      XCTAssert(false == bool.value)
+      XCTAssert(false == bool.swiftValue)
     }
     
     // true value
@@ -26,7 +26,7 @@ final class ParseValueTests: XCTestCase {
     XCTAssertNotNil(val)
     XCTAssert(val is ASN1Boolean)
     if let bool = val as? ASN1Boolean {
-      XCTAssert(true == bool.value)
+      XCTAssert(true == bool.swiftValue)
     }
     
     // failed parsing

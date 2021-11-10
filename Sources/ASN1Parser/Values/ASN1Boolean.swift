@@ -8,7 +8,7 @@
 import Foundation
 
 struct ASN1Boolean: ASN1Value {
-  var value: Bool
+  var swiftValue: Bool
   
   init(data: Data) throws {
     guard data.count == 1 else {
@@ -20,6 +20,6 @@ struct ASN1Boolean: ASN1Value {
       throw ASN1ParsingError.derViolation
     }
     
-    value = byte != 0
+    swiftValue = byte != 0
   }
 }
