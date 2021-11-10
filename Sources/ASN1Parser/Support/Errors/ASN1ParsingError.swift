@@ -14,6 +14,8 @@ enum ASN1ParsingError: Error {
   case invalidTLVLength
   case invalidSequence
   
+  case illegalInstantiation
+  
   // TODO(anyone): eliminate once this is no longer valid
   case unimplementedValue
 }

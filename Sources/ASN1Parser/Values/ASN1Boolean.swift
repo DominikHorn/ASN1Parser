@@ -10,6 +10,10 @@ import Foundation
 struct ASN1Boolean: ASN1Value {
   var swiftValue: Bool
   
+  init(_ swiftValue: Bool) {
+    self.swiftValue = swiftValue
+  }
+  
   init(data: Data) throws {
     guard data.count == 1 else {
       throw ASN1ParsingError.invalidTLVLength
@@ -23,3 +27,5 @@ struct ASN1Boolean: ASN1Value {
     swiftValue = byte != 0
   }
 }
+
+extension ASN1Boolean: Equatable {}
