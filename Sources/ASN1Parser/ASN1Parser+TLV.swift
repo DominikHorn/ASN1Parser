@@ -54,7 +54,7 @@ extension ASN1Parser {
     
     // TODO(dominik): does this have to be the case?
     guard length.value > 0 else {
-      throw ASN1ParsingError.invalidLength
+      throw ASN1ParsingError.invalidTLVLength
     }
     
     // each tag identifies a specific ASN1Value
@@ -62,6 +62,8 @@ extension ASN1Parser {
     switch tag {
     case .boolean:
       value = try ASN1Boolean(data: data[offset..<(offset+length.value)])
+    case .sequence:
+      value = try ASN1Sequence(data: data[offset..<(offset+length.value)])
     default:
       throw ASN1ParsingError.unimplementedValue
     }

@@ -12,7 +12,7 @@ struct ASN1Boolean: ASN1Value {
   
   init(data: Data) throws {
     guard data.count == 1 else {
-      throw ASN1ParsingError.invalidLength
+      throw ASN1ParsingError.invalidTLVLength
     }
     
     let byte = try data.tryAccess(at: data.startIndex)

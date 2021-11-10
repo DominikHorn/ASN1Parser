@@ -11,7 +11,8 @@ enum ASN1ParsingError: Error {
   case unreadableTag
   case derViolation
   
-  case invalidLength
+  case invalidTLVLength
+  case invalidSequence
   
   // TODO(anyone): eliminate once this is no longer valid
   case unimplementedValue
