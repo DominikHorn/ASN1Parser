@@ -11,6 +11,10 @@ import BigInt
 struct ASN1Integer: ASN1Value {
   var swiftValue: BigInt
   
+  init (_ swiftValue: Int) {
+    self.swiftValue = BigInt(swiftValue)
+  }
+  
   init(_ swiftValue: BigInt) {
     self.swiftValue = swiftValue
   }
