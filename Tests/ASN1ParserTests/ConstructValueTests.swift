@@ -42,6 +42,14 @@ final class ConstructValueTests: XCTestCase {
     XCTAssert(BigInt(longUIntData) == int3.swiftValue)
   }
   
+  func testConstructNull() throws {
+    XCTAssertNoThrow(try ASN1Null(data: Data([])))
+    XCTAssert(try ASN1Null(data: Data([])) == ASN1Null())
+    
+    XCTAssertThrowsError(try ASN1Null(data: Data([0x00])))
+    XCTAssertThrowsError(try ASN1Null(data: Data([0x01])))
+    XCTAssertThrowsError(try ASN1Null(data: Data([0xfa, 0xaf])))
+  }
                    
   func testConstructSequence() throws {
     XCTAssertThrowsError(try ASN1Sequence([]))
