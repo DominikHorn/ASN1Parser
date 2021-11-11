@@ -27,7 +27,23 @@ final class EqualityTests: XCTestCase {
       XCTAssert(bool3 == bool4)
     }
   }
-  
+
+  func testIntegerEquality() throws {
+    let int1 = ASN1Integer(42)
+    let int2 = try ASN1Integer(data: Data([0x2A]))
+    let int3 = ASN1Integer(-5)
+    let int4 = try ASN1Integer(data: Data([0x85]))
+    
+    XCTAssert(int1 == int2)
+    XCTAssert(int1 != int3)
+    XCTAssert(int1 != int4)
+    
+    XCTAssert(int2 != int3)
+    XCTAssert(int2 != int4)
+    
+    XCTAssert(int3 == int4)
+  }
+
   func testSequenceEquality() throws {
     let seq = ASN1Sequence(ASN1Boolean(false))
     var seq2: ASN1Value?
