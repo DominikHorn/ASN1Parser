@@ -21,7 +21,7 @@ struct ASN1Boolean: ASN1Value {
     
     let byte = try data.tryAccess(at: data.startIndex)
     guard byte == 0x00 || byte == 0x01 else {
-      throw ASN1ParsingError.derViolation
+      throw ASN1ParsingError.invalidBoolean
     }
     
     swiftValue = byte != 0

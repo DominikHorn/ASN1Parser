@@ -9,9 +9,11 @@ import Foundation
 
 enum ASN1ParsingError: Error {
   case unreadableTag
-  case derViolation
-  
+  case unsupportedTLVLength
   case invalidTLVLength
+  
+  case invalidBoolean
+  case invalidInteger
   case invalidSequence
   
   case illegalInstantiation

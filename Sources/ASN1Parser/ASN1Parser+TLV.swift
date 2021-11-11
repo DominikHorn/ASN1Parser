@@ -6,20 +6,29 @@
 //
 
 import Foundation
+import BigInt
 
 extension ASN1Parser {
   /// As documented in https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-encoded-length-and-value-bytes
   struct Length: ASN1Decodable {
-    let value: Int
+    var value: Int
     
     init(_ data: Data, offset: inout Data.Index) throws {
       let firstByte = try data.tryAccess(at: offset)
       offset += 1
       
+      value = Int(firstByte)
+      
       if firstByte.bit(at: 7) {
-        value = Int(firstByte & ((0x1 << 7) - 1))
-      } else {
-        value = Int(firstByte)
+        let trailingByteCount = Int(firstByte & ((0x1 << 7) - 1))
+        
+        guard trailingByteCount < MemoryLayout<Int>.size else {
+          throw ASN1ParsingError.unsupportedTLVLength
+        }
+
+        let dataView = data[offset..<(offset+trailingByteCount)]
+        offset += trailingByteCount
+        (dataView as NSData).getBytes(&value, length: MemoryLayout<Int>.size)
       }
     }
   }
@@ -59,11 +68,15 @@ extension ASN1Parser {
     
     // each tag identifies a specific ASN1Value
     var value: ASN1Value
+    let dataView = data[offset..<(offset+length.value)]
+    
     switch tag {
     case .boolean:
-      value = try ASN1Boolean(data: data[offset..<(offset+length.value)])
+      value = try ASN1Boolean(data: dataView)
+    case .integer:
+      value = try ASN1Integer(data: dataView)
     case .sequence:
-      value = try ASN1Sequence(data: data[offset..<(offset+length.value)])
+      value = try ASN1Sequence(data: dataView)
     default:
       throw ASN1ParsingError.unimplementedValue
     }
