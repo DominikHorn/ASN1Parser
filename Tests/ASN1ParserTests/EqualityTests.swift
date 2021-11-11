@@ -44,6 +44,10 @@ final class EqualityTests: XCTestCase {
     XCTAssert(int3 == int4)
   }
 
+  func testNullEquality() throws {
+    XCTAssert(try ASN1Null() == ASN1Null(data: Data()))
+  }
+  
   func testSequenceEquality() throws {
     let seq = ASN1Sequence(ASN1Boolean(false))
     var seq2: ASN1Value?
