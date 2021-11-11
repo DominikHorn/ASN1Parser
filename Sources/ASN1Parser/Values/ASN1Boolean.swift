@@ -10,7 +10,7 @@ import Foundation
 struct ASN1Boolean: ASN1Value {
   var swiftValue: Bool
   
-  init(_ swiftValue: Bool) {
+  public init(_ swiftValue: Bool) {
     self.swiftValue = swiftValue
   }
   

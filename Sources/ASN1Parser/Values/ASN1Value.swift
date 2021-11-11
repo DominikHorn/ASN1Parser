@@ -13,7 +13,7 @@ public protocol ASN1Value {
   func isEqualTo(_ other: ASN1Value) -> Bool
 }
 
-extension ASN1Value where Self: Equatable {
+public extension ASN1Value where Self: Equatable {
   func isEqualTo(_ other: ASN1Value) -> Bool {
     guard let other = other as? Self else { return false }
     return self == other

@@ -8,7 +8,7 @@
 import Foundation
 
 struct ASN1Null: ASN1Value {
-  init() {}
+  public init() {}
   
   init(data: Data) throws {
     guard data.isEmpty else {

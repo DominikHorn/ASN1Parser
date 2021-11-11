@@ -10,11 +10,11 @@ import Foundation
 struct ASN1Sequence: ASN1Value {
   var values = [ASN1Value]()
   
-  init(_ first: ASN1Value, _ next: ASN1Value...) {
+  public init(_ first: ASN1Value, _ next: ASN1Value...) {
     values = [first] + next
   }
   
-  init(_ values: [ASN1Value]) throws {
+  public init(_ values: [ASN1Value]) throws {
     guard !values.isEmpty else {
       throw ASN1ConstructionError.emptySequence
     }
