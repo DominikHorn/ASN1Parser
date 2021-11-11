@@ -61,7 +61,15 @@ extension ASN1Parser {
     let tag = try Tag(data, offset: &offset)
     let length = try Length(data, offset: &offset)
     
-    // TODO(dominik): does this have to be the case?
+    // special case: null value
+    if case tag = Tag.null {
+      guard length.value == 0 else {
+        throw ASN1ParsingError.invalidNull
+      }
+      return ASN1Null()
+    }
+    
+    // perform bounds check before access
     guard length.value > 0, length.value <= data.endIndex - offset else {
       throw ASN1ParsingError.invalidTLVLength
     }

@@ -18,6 +18,7 @@ final class ParseValueTests: XCTestCase {
     XCTAssertNoThrow(try ASN1Parser.parse(Data([ASN1Parser.Tag.integer.rawValue, 0x03, 0x00, 0xFF, 0xFF])))
     
     // cases that should fail
+    XCTAssertThrowsError(try ASN1Parser.parse(Data([ASN1Parser.Tag.integer.rawValue, 0x00, 0x02])))
     XCTAssertThrowsError(try ASN1Parser.parse(Data([ASN1Parser.Tag.integer.rawValue, 0x02, 0x02])))
     XCTAssertThrowsError(try ASN1Parser.parse(Data([ASN1Parser.Tag.integer.rawValue, 0x03, 0x02])))
     XCTAssertThrowsError(try ASN1Parser.parse(Data([ASN1Parser.Tag.integer.rawValue, 0x01])))
@@ -93,6 +94,17 @@ final class ParseValueTests: XCTestCase {
       let referenceVal = BigInt(sign: .plus, magnitude: BigUInt(Data(longUIntData)))
       XCTAssert(referenceVal == int.swiftValue)
     }
+  }
+  
+  func testParseNull() throws {
+    var val: ASN1Value?
+    
+    XCTAssertNoThrow(val = try ASN1Parser.parse(Data([ASN1Parser.Tag.null.rawValue, 0x00])))
+    XCTAssertNotNil(val)
+    XCTAssert(val is ASN1Null)
+    
+    // failed parsing wrong bool values
+    XCTAssertThrowsError(try ASN1Parser.parse(Data([ASN1Parser.Tag.null.rawValue, 0x01, 0x00])))
   }
   
   func testParseSequence() throws {
