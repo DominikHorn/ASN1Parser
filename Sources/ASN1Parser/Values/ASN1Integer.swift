@@ -8,6 +8,7 @@
 import Foundation
 import BigInt
 
+/// https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-integer
 struct ASN1Integer: ASN1Value {
   var swiftValue: BigInt
   

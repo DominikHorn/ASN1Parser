@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-sequence
 struct ASN1Sequence: ASN1Value {
   var values = [ASN1Value]()
   

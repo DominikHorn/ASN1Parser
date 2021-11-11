@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-null
 struct ASN1Null: ASN1Value {
   public init() {}
   

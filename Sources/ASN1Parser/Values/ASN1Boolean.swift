@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-boolean
 struct ASN1Boolean: ASN1Value {
   var swiftValue: Bool
   
