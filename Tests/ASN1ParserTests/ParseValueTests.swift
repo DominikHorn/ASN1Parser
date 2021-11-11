@@ -13,6 +13,16 @@ final class ParseValueTests: XCTestCase {
     XCTAssertThrowsError(try ASN1Parser.parse(Data([0x02,0x00])))
   }
   
+  func testParseLength() throws {
+    XCTAssertNoThrow(try ASN1Parser.parse(Data([ASN1Parser.Tag.integer.rawValue, 0x01, 0xFF])))
+    XCTAssertNoThrow(try ASN1Parser.parse(Data([ASN1Parser.Tag.integer.rawValue, 0x03, 0x00, 0xFF, 0xFF])))
+    
+    // cases that should fail
+    XCTAssertThrowsError(try ASN1Parser.parse(Data([ASN1Parser.Tag.integer.rawValue, 0x02, 0x02])))
+    XCTAssertThrowsError(try ASN1Parser.parse(Data([ASN1Parser.Tag.integer.rawValue, 0x03, 0x02])))
+    XCTAssertThrowsError(try ASN1Parser.parse(Data([ASN1Parser.Tag.integer.rawValue, 0x01])))
+  }
+  
   func testParseBoolean() throws {
     var val: ASN1Value?
     

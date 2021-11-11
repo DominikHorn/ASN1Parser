@@ -62,7 +62,7 @@ extension ASN1Parser {
     let length = try Length(data, offset: &offset)
     
     // TODO(dominik): does this have to be the case?
-    guard length.value > 0 else {
+    guard length.value > 0, length.value <= data.endIndex - offset else {
       throw ASN1ParsingError.invalidTLVLength
     }
     
