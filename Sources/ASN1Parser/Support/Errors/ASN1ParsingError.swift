@@ -8,7 +8,7 @@
 import Foundation
 
 enum ASN1ParsingError: Error {
-  case unreadableTag
+  case unreadableTag(UInt8)
   case unsupportedTLVLength
   case invalidTLVLength
   
@@ -19,6 +19,5 @@ enum ASN1ParsingError: Error {
   
   case illegalInstantiation
   
-  // TODO(anyone): eliminate once this is no longer valid
-  case unimplementedValue
+  case unimplemented(tag: ASN1Parser.Tag, length: ASN1Parser.Length, value: Data)
 }

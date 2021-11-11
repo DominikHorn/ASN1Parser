@@ -5,9 +5,9 @@ import XCTest
 final class EqualityTests: XCTestCase {
   func testBooleanEquality() throws {
     let bool1 = ASN1Boolean(false)
-    let bool2 = try ASN1Parser.parse(Data([ASN1Parser.Tag.boolean.rawValue, 0x01, 0x00]))
+    let bool2 = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.boolean.rawValue, 0x01, 0x00]))
     let bool3 = ASN1Boolean(true)
-    let bool4 = try ASN1Parser.parse(Data([ASN1Parser.Tag.boolean.rawValue, 0x01, 0x01]))
+    let bool4 = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.boolean.rawValue, 0x01, 0x01]))
     
     XCTAssert(bool2 is ASN1Boolean)
     XCTAssert(bool4 is ASN1Boolean)
@@ -48,12 +48,12 @@ final class EqualityTests: XCTestCase {
   
   func testSequenceEquality() throws {
     let seq = ASN1Sequence(ASN1Boolean(false))
-    let seq2 = try ASN1Parser.parse(Data([
+    let seq2 = try ASN1Parser.parseDER(Data([
       ASN1Parser.Tag.sequence.rawValue, 0x03,
         ASN1Parser.Tag.boolean.rawValue, 0x01, 0x00
     ]))
     let seq3 = ASN1Sequence(ASN1Boolean(false), ASN1Boolean(true), ASN1Boolean(false))
-    let seq4 = try ASN1Parser.parse(Data([
+    let seq4 = try ASN1Parser.parseDER(Data([
       ASN1Parser.Tag.sequence.rawValue, 0x09,
         ASN1Parser.Tag.boolean.rawValue, 0x01, 0x00,
         ASN1Parser.Tag.boolean.rawValue, 0x01, 0x01,

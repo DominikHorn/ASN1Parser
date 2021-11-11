@@ -49,8 +49,9 @@ extension ASN1Parser {
     case bmpString = 0x1E
     
     init(_ data: Data, offset: inout Data.Index) throws {
-      guard let tag = Tag(rawValue: try data.tryAccess(at: offset)) else {
-        throw ASN1ParsingError.unreadableTag
+      let firstByte = try data.tryAccess(at: offset)
+      guard let tag = Tag(rawValue: firstByte) else {
+        throw ASN1ParsingError.unreadableTag(firstByte)
       }
       self = tag
       offset += 1
@@ -86,7 +87,7 @@ extension ASN1Parser {
     case .sequence:
       value = try ASN1Sequence(data: dataView)
     default:
-      throw ASN1ParsingError.unimplementedValue
+      throw ASN1ParsingError.unimplemented(tag: tag, length: length, value: dataView)
     }
     
     offset += length.value

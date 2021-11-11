@@ -8,7 +8,7 @@
 import Foundation
 
 public struct ASN1Parser {
-  public static func parse(_ data: Data) throws -> ASN1Value {
+  public static func parseDER(_ data: Data) throws -> ASN1Value {
     var offset = data.startIndex
     return try parseTLV(data, offset: &offset)
   }
