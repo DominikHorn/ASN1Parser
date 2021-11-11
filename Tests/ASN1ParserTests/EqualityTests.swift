@@ -3,7 +3,7 @@ import XCTest
 
 /// Equatable no Values
 final class EqualityTests: XCTestCase {
-  func testBooleanEquality() {
+  func testBooleanEquality() throws {
     let bool1 = ASN1Boolean(false)
     var bool2: ASN1Value?
     let bool3 = ASN1Boolean(true)
@@ -28,7 +28,7 @@ final class EqualityTests: XCTestCase {
     }
   }
   
-  func testSequenceEquality() {
+  func testSequenceEquality() throws {
     let seq = ASN1Sequence(ASN1Boolean(false))
     var seq2: ASN1Value?
     let seq3 = ASN1Sequence(ASN1Boolean(false), ASN1Boolean(true), ASN1Boolean(false))

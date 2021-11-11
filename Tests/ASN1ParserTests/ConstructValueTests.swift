@@ -5,7 +5,7 @@ import BigInt
 
 /// Constructing values programatically
 final class ConstructValueTests: XCTestCase {
-  func testConstructBoolean() {
+  func testConstructBoolean() throws {
     let bool = ASN1Boolean(true)
     XCTAssert(true == bool.swiftValue)
     
@@ -43,7 +43,7 @@ final class ConstructValueTests: XCTestCase {
   }
   
                    
-  func testConstructSequence() {
+  func testConstructSequence() throws {
     XCTAssertThrowsError(try ASN1Sequence([]))
     
     let seq = ASN1Sequence(ASN1Boolean(false))
