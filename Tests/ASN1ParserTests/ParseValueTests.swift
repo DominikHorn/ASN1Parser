@@ -108,14 +108,11 @@ final class ParseValueTests: XCTestCase {
   }
   
   func testParseSequence() throws {
-    var val: ASN1Value?
-    
     // single element in sequence
-    XCTAssertNoThrow(val = try ASN1Parser.parse(Data([
+    let val = try ASN1Parser.parse(Data([
       ASN1Parser.Tag.sequence.rawValue, 0x03,
         ASN1Parser.Tag.boolean.rawValue, 0x01, 0x01
-    ])))
-    XCTAssertNotNil(val)
+    ]))
     XCTAssert(val is ASN1Sequence)
     if let sequence = val as? ASN1Sequence {
       XCTAssert(sequence.values.count == 1)
@@ -126,19 +123,18 @@ final class ParseValueTests: XCTestCase {
     }
     
     // multiple elements in sequence
-    XCTAssertNoThrow(val = try ASN1Parser.parse(Data([
+    let val2 = try ASN1Parser.parse(Data([
       ASN1Parser.Tag.sequence.rawValue, 0x09,
         ASN1Parser.Tag.boolean.rawValue, 0x01, 0x00,
         ASN1Parser.Tag.boolean.rawValue, 0x01, 0x01,
         ASN1Parser.Tag.boolean.rawValue, 0x01, 0x00
-    ])))
-    XCTAssertNotNil(val)
-    XCTAssert(val is ASN1Sequence)
-    if let sequence = val as? ASN1Sequence {
+    ]))
+    XCTAssert(val2 is ASN1Sequence)
+    if let sequence = val2 as? ASN1Sequence {
       XCTAssert(sequence.values.count == 3)
-      sequence.values.enumerated().forEach { i, val in
-        XCTAssert(val is ASN1Boolean)
-        if let bool = val as? ASN1Boolean {
+      sequence.values.enumerated().forEach { i, bool in
+        XCTAssert(bool is ASN1Boolean)
+        if let bool = bool as? ASN1Boolean {
           switch i {
           case 0:
             XCTAssert(false == bool.swiftValue)

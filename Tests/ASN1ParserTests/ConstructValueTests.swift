@@ -61,9 +61,7 @@ final class ConstructValueTests: XCTestCase {
       XCTAssert(false == bool.swiftValue)
     }
     
-    var seq2: ASN1Sequence?
-    XCTAssertNoThrow(seq2 = try ASN1Sequence([ASN1Boolean(false)]))
-    XCTAssertNotNil(seq2)
+    let seq2 = try ASN1Sequence([ASN1Boolean(false)])
     XCTAssert(seq == seq2)
     
     let seq3 = ASN1Sequence(ASN1Boolean(true), ASN1Boolean(false), ASN1Boolean(false))
@@ -72,14 +70,10 @@ final class ConstructValueTests: XCTestCase {
       XCTAssert(val is ASN1Boolean)
     }
     
-    var seq4: ASN1Sequence?
-    XCTAssertNoThrow(seq4 = try ASN1Sequence([ASN1Boolean(true), ASN1Boolean(false)]))
-    XCTAssertNotNil(seq4)
+    let  seq4 = try ASN1Sequence([ASN1Boolean(true), ASN1Boolean(false)])
     XCTAssert(seq3 != seq4)
     
-    var seq5: ASN1Sequence?
-    XCTAssertNoThrow(seq5 = try ASN1Sequence([ASN1Boolean(true), ASN1Boolean(false), ASN1Boolean(false)]))
-    XCTAssertNotNil(seq5)
+    let seq5 = try ASN1Sequence([ASN1Boolean(true), ASN1Boolean(false), ASN1Boolean(false)])
     XCTAssert(seq3 == seq5)
   }
 }
