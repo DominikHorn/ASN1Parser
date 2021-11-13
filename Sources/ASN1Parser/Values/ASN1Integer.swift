@@ -9,7 +9,7 @@ import Foundation
 import BigInt
 
 /// https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-integer
-struct ASN1Integer: ASN1Value {
+public struct ASN1Integer: ASN1Value {
   var swiftValue: BigInt
   
   public init (_ swiftValue: Int) {
@@ -19,17 +19,19 @@ struct ASN1Integer: ASN1Value {
   public init(_ swiftValue: BigInt) {
     self.swiftValue = swiftValue
   }
-  
-  init(data: Data) throws {
-    guard let firstByte = data.first else {
+}
+
+extension ASN1Integer: ASN1LoadFromDER {
+  init(der: Data) throws {
+    guard let firstByte = der.first else {
       throw ASN1ParsingError.invalidInteger
     }
     
     var signed = firstByte.bit(at: 7)
-    var dataView = data
-    if data.count > 1 && firstByte == 0x00 {
+    var dataView = der
+    if der.count > 1 && firstByte == 0x00 {
       signed = false
-      dataView = data[(data.startIndex+1)..<data.endIndex]
+      dataView = der[(der.startIndex+1)..<der.endIndex]
     }
     
     if signed {

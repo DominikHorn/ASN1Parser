@@ -26,9 +26,9 @@ final class EqualityTests: XCTestCase {
 
   func testIntegerEquality() throws {
     let int1 = ASN1Integer(42)
-    let int2 = try ASN1Integer(data: Data([0x2A]))
+    let int2 = try ASN1Integer(der: Data([0x2A]))
     let int3 = ASN1Integer(-5)
-    let int4 = try ASN1Integer(data: Data([0x85]))
+    let int4 = try ASN1Integer(der: Data([0x85]))
     
     XCTAssertEqual(int1, int2)
     XCTAssertNotEqual(int1, int3)
@@ -41,7 +41,7 @@ final class EqualityTests: XCTestCase {
   }
 
   func testNullEquality() throws {
-    XCTAssertEqual(ASN1Null(), try ASN1Null(data: Data()))
+    XCTAssertEqual(ASN1Null(), try ASN1Null(der: Data()))
   }
   
   func testObjectIdentifierEquality() throws {

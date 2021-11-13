@@ -10,11 +10,11 @@ import BigInt
 
 extension ASN1Parser {
   /// As documented in https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-encoded-length-and-value-bytes
-  struct Length: ASN1Decodable {
+  struct Length {
     var value: Int
     
-    init(_ data: Data, offset: inout Data.Index) throws {
-      let firstByte = try data.tryAccess(at: offset)
+    init(_ der: Data, offset: inout Data.Index) throws {
+      let firstByte = try der.tryAccess(at: offset)
       offset += 1
       
       value = Int(firstByte)
@@ -26,14 +26,14 @@ extension ASN1Parser {
           throw ASN1ParsingError.unsupportedTLVLength
         }
 
-        let dataView = data[offset..<(offset+trailingByteCount)]
+        let dataView = der[offset..<(offset+trailingByteCount)]
         offset += trailingByteCount
         (dataView as NSData).getBytes(&value, length: MemoryLayout<Int>.size)
       }
     }
   }
   /// As documented in https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-encoded-tag-bytes
-  enum Tag: UInt8, ASN1Decodable {
+  enum Tag: UInt8 {
     case boolean = 0x01
     case integer = 0x02
     case bitString = 0x03
@@ -48,8 +48,8 @@ extension ASN1Parser {
     case set = 0x31
     case bmpString = 0x1E
     
-    init(_ data: Data, offset: inout Data.Index) throws {
-      let firstByte = try data.tryAccess(at: offset)
+    init(_ der: Data, offset: inout Data.Index) throws {
+      let firstByte = try der.tryAccess(at: offset)
       guard let tag = Tag(rawValue: firstByte) else {
         throw ASN1ParsingError.unreadableTag(firstByte)
       }
@@ -58,9 +58,9 @@ extension ASN1Parser {
     }
   }
   
-  internal static func parseTLV(_ data: Data, offset: inout Data.Index) throws -> ASN1Value {
-    let tag = try Tag(data, offset: &offset)
-    let length = try Length(data, offset: &offset)
+  internal static func parseTLV(_ der: Data, offset: inout Data.Index) throws -> ASN1Value {
+    let tag = try Tag(der, offset: &offset)
+    let length = try Length(der, offset: &offset)
     
     // special case: null value
     if case tag = Tag.null {
@@ -71,25 +71,25 @@ extension ASN1Parser {
     }
     
     // perform bounds check before access
-    guard length.value > 0, length.value <= data.endIndex - offset else {
+    guard length.value > 0, length.value <= der.endIndex - offset else {
       throw ASN1ParsingError.invalidTLVLength
     }
     
     // each tag identifies a specific ASN1Value
     var value: ASN1Value
-    let dataView = data[offset..<(offset+length.value)]
+    let derView = der[offset..<(offset+length.value)]
     
     switch tag {
     case .boolean:
-      value = try ASN1Boolean(data: dataView)
+      value = try ASN1Boolean(der: derView)
     case .integer:
-      value = try ASN1Integer(data: dataView)
+      value = try ASN1Integer(der: derView)
     case .objectIdentifier:
-      value = try ASN1ObjectIdentifier(data: dataView)
+      value = try ASN1ObjectIdentifier(der: derView)
     case .sequence:
-      value = try ASN1Sequence(data: dataView)
+      value = try ASN1Sequence(der: derView)
     default:
-      throw ASN1ParsingError.unimplemented(tag: tag, length: length, value: dataView)
+      throw ASN1ParsingError.unimplemented(tag: tag, length: length, value: derView)
     }
     
     offset += length.value

@@ -8,11 +8,13 @@
 import Foundation
 
 /// https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-null
-struct ASN1Null: ASN1Value {
+public struct ASN1Null: ASN1Value {
   public init() {}
-  
-  init(data: Data) throws {
-    guard data.isEmpty else {
+}
+
+extension ASN1Null: ASN1LoadFromDER {
+  init(der: Data) throws {
+    guard der.isEmpty else {
       throw ASN1ParsingError.invalidNull
     }
   }

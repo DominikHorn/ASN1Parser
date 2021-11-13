@@ -43,12 +43,12 @@ final class ConstructValueTests: XCTestCase {
   }
   
   func testConstructNull() throws {
-    XCTAssertNoThrow(try ASN1Null(data: Data([])))
-    XCTAssertEqual(try ASN1Null(data: Data([])), ASN1Null())
+    XCTAssertNoThrow(try ASN1Null(der: Data([])))
+    XCTAssertEqual(try ASN1Null(der: Data([])), ASN1Null())
     
-    XCTAssertThrowsError(try ASN1Null(data: Data([0x00])))
-    XCTAssertThrowsError(try ASN1Null(data: Data([0x01])))
-    XCTAssertThrowsError(try ASN1Null(data: Data([0xfa, 0xaf])))
+    XCTAssertThrowsError(try ASN1Null(der: Data([0x00])))
+    XCTAssertThrowsError(try ASN1Null(der: Data([0x01])))
+    XCTAssertThrowsError(try ASN1Null(der: Data([0xfa, 0xaf])))
   }
   
   func testConstructObjectIdentifier() throws {

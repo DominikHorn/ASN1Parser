@@ -8,7 +8,8 @@
 import Foundation
 import BigInt
 
-struct ASN1ObjectIdentifier: ASN1Value {
+/// https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-object-identifier
+public struct ASN1ObjectIdentifier: ASN1Value {
   var values = [BigUInt]()
   var id: String {
     values.map {
@@ -33,20 +34,22 @@ struct ASN1ObjectIdentifier: ASN1Value {
     }
     self.values = nodes
   }
-  
-  init(data: Data) throws {
-    let firstByte = try data.tryAccess(at: data.startIndex)
+}
+
+extension ASN1ObjectIdentifier: ASN1LoadFromDER {
+  init(der: Data) throws {
+    let firstByte = try der.tryAccess(at: der.startIndex)
     
     // parse first byte
     values.append(BigUInt(firstByte / 40))
     values.append(BigUInt(firstByte % 40))
     
     // parse remaining bytes
-    var baseOffset = data.startIndex + 1
-    while baseOffset < data.endIndex {
+    var baseOffset = der.startIndex + 1
+    while baseOffset < der.endIndex {
       var lastByteOffset = baseOffset
       var lastByteSize = 1
-      while try data.tryAccess(at: lastByteOffset).bit(at: 7) {
+      while try der.tryAccess(at: lastByteOffset).bit(at: 7) {
         lastByteOffset += 1
         lastByteSize += 1
       }
@@ -55,7 +58,7 @@ struct ASN1ObjectIdentifier: ASN1Value {
       var lastAvailable = 0
       
       for (offset, i) in zip(baseOffset...lastByteOffset, 0..<lastByteSize).reversed() {
-        let byte = try data.tryAccess(at: offset) & ((0x1 << 7) - 1)
+        let byte = try der.tryAccess(at: offset) & ((0x1 << 7) - 1)
         
         // store upper (7 - lastAvailable)
         bytes[i] = byte >> lastAvailable
@@ -73,7 +76,7 @@ struct ASN1ObjectIdentifier: ASN1Value {
       baseOffset = lastByteOffset + 1
     }
     
-    guard baseOffset == data.endIndex else {
+    guard baseOffset == der.endIndex else {
       throw ASN1ParsingError.invalidTLVLength
     }
   }

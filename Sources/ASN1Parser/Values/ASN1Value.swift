@@ -8,8 +8,6 @@
 import Foundation
 
 public protocol ASN1Value {
-  init(data: Data) throws
-  
   func isEqualTo(_ other: ASN1Value) -> Bool
 }
 
