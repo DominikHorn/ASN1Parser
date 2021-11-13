@@ -32,3 +32,9 @@ extension ASN1Boolean: ASN1LoadFromDER {
 }
 
 extension ASN1Boolean: Equatable {}
+
+extension ASN1Boolean: CustomStringConvertible {
+  public var description: String {
+    "BOOL = \(swiftValue)"
+  }
+}

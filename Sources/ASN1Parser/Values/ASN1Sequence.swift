@@ -42,3 +42,9 @@ extension ASN1Sequence: Equatable {
     return zip(lhs.values, rhs.values).allSatisfy({ (v1, v2) in v1.isEqualTo(v2) })
   }
 }
+
+extension ASN1Sequence: CustomStringConvertible {
+  public var description: String {
+    "SEQUENCE:\n" + values.map { "\t\($0)".replacingOccurrences(of: "\n", with: "\n\t") }.joined(separator: "\n")
+  }
+}

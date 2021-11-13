@@ -46,3 +46,9 @@ extension ASN1Integer: ASN1LoadFromDER {
 }
 
 extension ASN1Integer: Equatable {}
+
+extension ASN1Integer: CustomStringConvertible {
+  public var description: String {
+    "INTEGER = \(swiftValue)"
+  }
+}

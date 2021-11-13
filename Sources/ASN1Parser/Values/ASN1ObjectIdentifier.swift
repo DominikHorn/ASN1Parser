@@ -11,7 +11,7 @@ import BigInt
 /// https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-object-identifier
 public struct ASN1ObjectIdentifier: ASN1Value {
   var values = [BigUInt]()
-  var id: String {
+  public var id: String {
     values.map {
       "\($0)"
     }.joined(separator: ".")
@@ -83,3 +83,9 @@ extension ASN1ObjectIdentifier: ASN1LoadFromDER {
 }
 
 extension ASN1ObjectIdentifier: Equatable {}
+
+extension ASN1ObjectIdentifier: CustomStringConvertible {
+  public var description: String {
+    "OBJECT IDENTIFIER = \(id)"
+  }
+}

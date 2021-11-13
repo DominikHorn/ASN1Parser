@@ -21,3 +21,9 @@ extension ASN1Null: ASN1LoadFromDER {
 }
 
 extension ASN1Null: Equatable {}
+
+extension ASN1Null: CustomStringConvertible {
+  public var description: String {
+    "NULL"
+  }
+}
