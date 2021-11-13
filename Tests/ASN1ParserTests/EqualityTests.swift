@@ -13,14 +13,14 @@ final class EqualityTests: XCTestCase {
     XCTAssert(bool4 is ASN1Boolean)
     
     if let bool2 = bool2 as? ASN1Boolean, let bool4 = bool4 as? ASN1Boolean {
-      XCTAssert(bool1 == bool2)
-      XCTAssert(bool1 != bool3)
-      XCTAssert(bool1 != bool4)
+      XCTAssertEqual(bool1, bool2)
+      XCTAssertNotEqual(bool1, bool3)
+      XCTAssertNotEqual(bool1, bool4)
       
-      XCTAssert(bool2 != bool3)
-      XCTAssert(bool2 != bool4)
+      XCTAssertNotEqual(bool2, bool3)
+      XCTAssertNotEqual(bool2, bool4)
       
-      XCTAssert(bool3 == bool4)
+      XCTAssertEqual(bool3, bool4)
     }
   }
 
@@ -30,18 +30,18 @@ final class EqualityTests: XCTestCase {
     let int3 = ASN1Integer(-5)
     let int4 = try ASN1Integer(data: Data([0x85]))
     
-    XCTAssert(int1 == int2)
-    XCTAssert(int1 != int3)
-    XCTAssert(int1 != int4)
+    XCTAssertEqual(int1, int2)
+    XCTAssertNotEqual(int1, int3)
+    XCTAssertNotEqual(int1, int4)
     
-    XCTAssert(int2 != int3)
-    XCTAssert(int2 != int4)
+    XCTAssertNotEqual(int2, int3)
+    XCTAssertNotEqual(int2, int4)
     
-    XCTAssert(int3 == int4)
+    XCTAssertEqual(int3, int4)
   }
 
   func testNullEquality() throws {
-    XCTAssert(try ASN1Null() == ASN1Null(data: Data()))
+    XCTAssertEqual(ASN1Null(), try ASN1Null(data: Data()))
   }
   
   // TODO(dominik) equality integer, null etc tests!
@@ -64,14 +64,14 @@ final class EqualityTests: XCTestCase {
     XCTAssert(seq4 is ASN1Sequence)
     
     if let seq2 = seq2 as? ASN1Sequence, let seq4 = seq4 as? ASN1Sequence {
-      XCTAssert(seq == seq2)
-      XCTAssert(seq != seq3)
-      XCTAssert(seq != seq4)
+      XCTAssertEqual(seq, seq2)
+      XCTAssertNotEqual(seq, seq3)
+      XCTAssertNotEqual(seq, seq4)
       
-      XCTAssert(seq2 != seq3)
-      XCTAssert(seq2 != seq4)
+      XCTAssertNotEqual(seq2, seq3)
+      XCTAssertNotEqual(seq2, seq4)
       
-      XCTAssert(seq3 == seq4)
+      XCTAssertEqual(seq3, seq4)
     }
   }
 }

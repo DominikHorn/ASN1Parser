@@ -29,14 +29,14 @@ final class ParseValueTests: XCTestCase {
     var val: ASN1Value = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.boolean.rawValue, 0x01, 0x00]))
     XCTAssert(val is ASN1Boolean)
     if let bool = val as? ASN1Boolean {
-      XCTAssert(false == bool.swiftValue)
+      XCTAssertEqual(bool.swiftValue, false)
     }
     
     // true value
     val = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.boolean.rawValue, 0x01, 0x01]))
     XCTAssert(val is ASN1Boolean)
     if let bool = val as? ASN1Boolean {
-      XCTAssert(true == bool.swiftValue)
+      XCTAssertEqual(bool.swiftValue, true)
     }
     
     // failed parsing wrong bool values
@@ -51,13 +51,13 @@ final class ParseValueTests: XCTestCase {
     var val: ASN1Value = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.integer.rawValue, 0x01, 0x03]))
     XCTAssert(val is ASN1Integer)
     if let int = val as? ASN1Integer {
-      XCTAssert(3 == int.swiftValue)
+      XCTAssertEqual(int.swiftValue, 3)
     }
 
     val = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.integer.rawValue, 0x01, 0x85]))
     XCTAssert(val is ASN1Integer)
     if let int = val as? ASN1Integer {
-      XCTAssert(-5 == int.swiftValue)
+      XCTAssertEqual(int.swiftValue, -5)
     }
     
     let longUIntData: [UInt8] = [
@@ -83,7 +83,7 @@ final class ParseValueTests: XCTestCase {
     XCTAssert(val is ASN1Integer)
     if let int = val as? ASN1Integer {
       let referenceVal = BigInt(sign: .plus, magnitude: BigUInt(Data(longUIntData)))
-      XCTAssert(referenceVal == int.swiftValue)
+      XCTAssertEqual(referenceVal, int.swiftValue)
     }
   }
   
@@ -103,10 +103,10 @@ final class ParseValueTests: XCTestCase {
     ]))
     XCTAssert(val is ASN1Sequence)
     if let sequence = val as? ASN1Sequence {
-      XCTAssert(sequence.values.count == 1)
+      XCTAssertEqual(sequence.values.count, 1)
       XCTAssert(sequence.values.first is ASN1Boolean)
       if let bool = sequence.values.first as? ASN1Boolean {
-        XCTAssert(true == bool.swiftValue)
+        XCTAssertEqual(bool.swiftValue, true)
       }
     }
     
@@ -119,19 +119,19 @@ final class ParseValueTests: XCTestCase {
     ]))
     XCTAssert(val2 is ASN1Sequence)
     if let sequence = val2 as? ASN1Sequence {
-      XCTAssert(sequence.values.count == 3)
+      XCTAssertEqual(sequence.values.count, 3)
       sequence.values.enumerated().forEach { i, bool in
         XCTAssert(bool is ASN1Boolean)
         if let bool = bool as? ASN1Boolean {
           switch i {
           case 0:
-            XCTAssert(false == bool.swiftValue)
+            XCTAssertEqual(bool.swiftValue, false)
           case 1:
-            XCTAssert(true == bool.swiftValue)
+            XCTAssertEqual(bool.swiftValue, true)
           case 2:
-            XCTAssert(false == bool.swiftValue)
+            XCTAssertEqual(bool.swiftValue, false)
           default:
-            XCTAssertFalse(true)
+            XCTFail()
           }
         }
       }

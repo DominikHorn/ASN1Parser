@@ -7,18 +7,18 @@ import BigInt
 final class ConstructValueTests: XCTestCase {
   func testConstructBoolean() throws {
     let bool = ASN1Boolean(true)
-    XCTAssert(true == bool.swiftValue)
+    XCTAssertEqual(bool.swiftValue, true)
     
     let bool2 = ASN1Boolean(false)
-    XCTAssert(false == bool2.swiftValue)
+    XCTAssertEqual(bool2.swiftValue, false)
   }
   
   func testConstructInteger() throws {
     let int = ASN1Integer(1337)
-    XCTAssert(1337 == int.swiftValue)
+    XCTAssertEqual(int.swiftValue, 1337)
     
     let int2 = ASN1Integer(-50)
-    XCTAssert(-50 == int2.swiftValue)
+    XCTAssertEqual(int2.swiftValue, -50)
     
     let longUIntData = Data([
       0x8f, 0xe2, 0x41, 0x2a, 0x08, 0xe8, 0x51, 0xa8,
@@ -39,12 +39,12 @@ final class ConstructValueTests: XCTestCase {
       0x3a, 0x37, 0x42, 0x45, 0x75, 0xdc, 0x90, 0x65
     ])
     let int3 = ASN1Integer(BigInt(longUIntData))
-    XCTAssert(BigInt(longUIntData) == int3.swiftValue)
+    XCTAssertEqual(int3.swiftValue, BigInt(longUIntData))
   }
   
   func testConstructNull() throws {
     XCTAssertNoThrow(try ASN1Null(data: Data([])))
-    XCTAssert(try ASN1Null(data: Data([])) == ASN1Null())
+    XCTAssertEqual(try ASN1Null(data: Data([])), ASN1Null())
     
     XCTAssertThrowsError(try ASN1Null(data: Data([0x00])))
     XCTAssertThrowsError(try ASN1Null(data: Data([0x01])))
@@ -55,25 +55,25 @@ final class ConstructValueTests: XCTestCase {
     XCTAssertThrowsError(try ASN1Sequence([]))
     
     let seq = ASN1Sequence(ASN1Boolean(false))
-    XCTAssert(seq.values.count == 1)
+    XCTAssertEqual(seq.values.count, 1)
     XCTAssert(seq.values.first is ASN1Boolean)
     if let bool = seq.values.first as? ASN1Boolean {
-      XCTAssert(false == bool.swiftValue)
+      XCTAssertEqual(bool.swiftValue, false)
     }
     
     let seq2 = try ASN1Sequence([ASN1Boolean(false)])
-    XCTAssert(seq == seq2)
+    XCTAssertEqual(seq, seq2)
     
     let seq3 = ASN1Sequence(ASN1Boolean(true), ASN1Boolean(false), ASN1Boolean(false))
-    XCTAssert(seq3.values.count == 3)
+    XCTAssertEqual(seq3.values.count, 3)
     seq3.values.forEach { val in
       XCTAssert(val is ASN1Boolean)
     }
     
     let  seq4 = try ASN1Sequence([ASN1Boolean(true), ASN1Boolean(false)])
-    XCTAssert(seq3 != seq4)
+    XCTAssertNotEqual(seq3, seq4)
     
     let seq5 = try ASN1Sequence([ASN1Boolean(true), ASN1Boolean(false), ASN1Boolean(false)])
-    XCTAssert(seq3 == seq5)
+    XCTAssertEqual(seq3, seq5)
   }
 }
