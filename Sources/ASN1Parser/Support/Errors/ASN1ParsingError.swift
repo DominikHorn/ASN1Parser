@@ -20,6 +20,4 @@ public enum ASN1ParsingError: Error {
   case invalidSequence
   
   case illegalInstantiation
-  
-  case unimplemented(tag: DERParser.Tag, length: DERParser.Length, value: Data)
 }

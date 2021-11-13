@@ -91,10 +91,16 @@ extension DERParser {
     case .sequence:
       value = try ASN1Sequence(der: derView)
     default:
-      throw ASN1ParsingError.unimplemented(tag: tag, length: length, value: derView)
+      throw ASN1UnimplementedError(tag: tag, length: length, value: derView)
     }
     
     offset += length.value
     return value
+  }
+  
+  struct ASN1UnimplementedError: Error {
+    var tag: DERParser.Tag
+    var length: DERParser.Length
+    var value: Data
   }
 }
