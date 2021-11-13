@@ -6,16 +6,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Generate
-        run: |
-          swift test --enable-code-coverage --parallel
-          COVERAGE_DIR="$(swift test --show-codecov-path | xargs dirname)"
-          BUILD_DIR="${COVERAGE_DIR}/.."
-          sudo apt-get install llvm-cov
-          llvm-cov report ${BUILD_DIR}/ASN1ParserPackageTests.xctest -instr-profile=${COVERAGE_DIR}/default.profdata -use-color > coverage.txt
+        run: swift test --enable-code-coverage --parallel
       - name: Export Coverage
-        uses: codecov/codecov-action@v2
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: true
-          files: ./coverage.txt
-          verbose: true
+        uses: mattpolzin/swift-codecov-action@0.6.0
