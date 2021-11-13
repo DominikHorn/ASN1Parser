@@ -7,10 +7,11 @@ jobs:
       - uses: actions/checkout@v2
       - name: Generate Coverage
         run: swift test --enable-code-coverage --parallel
+      - name: Export Coverage
         uses: mattpolzin/swift-codecov-action@0.6.0
       - name: DEBUG
         run: echo $CODECOV
-      - name: Create Awesome Badge
+      - name: Create Badge
         uses: schneegans/dynamic-badges-action@v1.1.0
         with:
           auth: ${{ secrets.GIST_SECRET }}
