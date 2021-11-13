@@ -76,8 +76,6 @@ struct ASN1ObjectIdentifier: ASN1Value {
     guard baseOffset == data.endIndex else {
       throw ASN1ParsingError.invalidTLVLength
     }
-    
-    print(id)
   }
 }
 
