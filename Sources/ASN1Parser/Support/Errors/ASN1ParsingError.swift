@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ASN1ParsingError: Error {
+public enum ASN1ParsingError: Error {
   case unreadableTag(UInt8)
   case unsupportedTLVLength
   case invalidTLVLength
