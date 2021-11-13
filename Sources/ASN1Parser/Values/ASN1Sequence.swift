@@ -27,7 +27,7 @@ extension ASN1Sequence: ASN1LoadFromDER {
   init(der: Data) throws {
     var offset = der.startIndex
     while offset < der.endIndex {
-      values.append(try ASN1Parser.parseTLV(der, offset: &offset))
+      values.append(try DERParser.parseTLV(der, offset: &offset))
     }
     
     guard !values.isEmpty else {

@@ -1,5 +1,5 @@
 //
-//  ASN1Parser+TLV.swift
+//  DERParser+TLV.swift
 //  
 //
 //  Created by Dominik Horn on 10.11.21.
@@ -8,7 +8,7 @@
 import Foundation
 import BigInt
 
-extension ASN1Parser {
+extension DERParser {
   /// As documented in https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-encoded-length-and-value-bytes
   struct Length {
     var value: Int

@@ -20,5 +20,5 @@ enum ASN1ParsingError: Error {
   
   case illegalInstantiation
   
-  case unimplemented(tag: ASN1Parser.Tag, length: ASN1Parser.Length, value: Data)
+  case unimplemented(tag: DERParser.Tag, length: DERParser.Length, value: Data)
 }

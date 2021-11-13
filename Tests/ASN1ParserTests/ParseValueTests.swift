@@ -7,54 +7,54 @@ import BigInt
 final class ParseValueTests: XCTestCase {
   func testSafelyParseGarbage() throws {
     // TODO(dominik): add more garbage inputs
-    XCTAssertThrowsError(try ASN1Parser.parseDER(Data([])))
-    XCTAssertThrowsError(try ASN1Parser.parseDER(Data([0x00])))
-    XCTAssertThrowsError(try ASN1Parser.parseDER(Data([0x00,0x01, 0x00])))
-    XCTAssertThrowsError(try ASN1Parser.parseDER(Data([0x02,0x00])))
+    XCTAssertThrowsError(try DERParser.parse(der: Data([])))
+    XCTAssertThrowsError(try DERParser.parse(der: Data([0x00])))
+    XCTAssertThrowsError(try DERParser.parse(der: Data([0x00,0x01, 0x00])))
+    XCTAssertThrowsError(try DERParser.parse(der: Data([0x02,0x00])))
   }
   
   func testParseLength() throws {
-    XCTAssertNoThrow(try ASN1Parser.parseDER(Data([ASN1Parser.Tag.integer.rawValue, 0x01, 0xFF])))
-    XCTAssertNoThrow(try ASN1Parser.parseDER(Data([ASN1Parser.Tag.integer.rawValue, 0x03, 0x00, 0xFF, 0xFF])))
+    XCTAssertNoThrow(try DERParser.parse(der: Data([DERParser.Tag.integer.rawValue, 0x01, 0xFF])))
+    XCTAssertNoThrow(try DERParser.parse(der: Data([DERParser.Tag.integer.rawValue, 0x03, 0x00, 0xFF, 0xFF])))
     
     // cases that should fail
-    XCTAssertThrowsError(try ASN1Parser.parseDER(Data([ASN1Parser.Tag.integer.rawValue, 0x00, 0x02])))
-    XCTAssertThrowsError(try ASN1Parser.parseDER(Data([ASN1Parser.Tag.integer.rawValue, 0x02, 0x02])))
-    XCTAssertThrowsError(try ASN1Parser.parseDER(Data([ASN1Parser.Tag.integer.rawValue, 0x03, 0x02])))
-    XCTAssertThrowsError(try ASN1Parser.parseDER(Data([ASN1Parser.Tag.integer.rawValue, 0x01])))
+    XCTAssertThrowsError(try DERParser.parse(der: Data([DERParser.Tag.integer.rawValue, 0x00, 0x02])))
+    XCTAssertThrowsError(try DERParser.parse(der: Data([DERParser.Tag.integer.rawValue, 0x02, 0x02])))
+    XCTAssertThrowsError(try DERParser.parse(der: Data([DERParser.Tag.integer.rawValue, 0x03, 0x02])))
+    XCTAssertThrowsError(try DERParser.parse(der: Data([DERParser.Tag.integer.rawValue, 0x01])))
   }
   
   func testParseBoolean() throws {
     // false alue
-    var val: ASN1Value = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.boolean.rawValue, 0x01, 0x00]))
+    var val: ASN1Value = try DERParser.parse(der: Data([DERParser.Tag.boolean.rawValue, 0x01, 0x00]))
     XCTAssert(val is ASN1Boolean)
     if let bool = val as? ASN1Boolean {
       XCTAssertEqual(bool.swiftValue, false)
     }
     
     // true value
-    val = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.boolean.rawValue, 0x01, 0x01]))
+    val = try DERParser.parse(der: Data([DERParser.Tag.boolean.rawValue, 0x01, 0x01]))
     XCTAssert(val is ASN1Boolean)
     if let bool = val as? ASN1Boolean {
       XCTAssertEqual(bool.swiftValue, true)
     }
     
     // failed parsing wrong bool values
-    XCTAssertThrowsError(try ASN1Parser.parseDER(Data([ASN1Parser.Tag.boolean.rawValue, 0x01, 0x02])))
-    XCTAssertThrowsError(try ASN1Parser.parseDER(Data([ASN1Parser.Tag.boolean.rawValue, 0x01, 0x05])))
-    XCTAssertThrowsError(try ASN1Parser.parseDER(Data([ASN1Parser.Tag.boolean.rawValue, 0x01, 0x10])))
-    XCTAssertThrowsError(try ASN1Parser.parseDER(Data([ASN1Parser.Tag.boolean.rawValue, 0x01, 0xFE])))
-    XCTAssertThrowsError(try ASN1Parser.parseDER(Data([ASN1Parser.Tag.boolean.rawValue, 0x01, 0xFF])))
+    XCTAssertThrowsError(try DERParser.parse(der: Data([DERParser.Tag.boolean.rawValue, 0x01, 0x02])))
+    XCTAssertThrowsError(try DERParser.parse(der: Data([DERParser.Tag.boolean.rawValue, 0x01, 0x05])))
+    XCTAssertThrowsError(try DERParser.parse(der: Data([DERParser.Tag.boolean.rawValue, 0x01, 0x10])))
+    XCTAssertThrowsError(try DERParser.parse(der: Data([DERParser.Tag.boolean.rawValue, 0x01, 0xFE])))
+    XCTAssertThrowsError(try DERParser.parse(der: Data([DERParser.Tag.boolean.rawValue, 0x01, 0xFF])))
   }
   
   func testParseInteger() throws {
-    var val: ASN1Value = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.integer.rawValue, 0x01, 0x03]))
+    var val: ASN1Value = try DERParser.parse(der: Data([DERParser.Tag.integer.rawValue, 0x01, 0x03]))
     XCTAssert(val is ASN1Integer)
     if let int = val as? ASN1Integer {
       XCTAssertEqual(int.swiftValue, 3)
     }
 
-    val = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.integer.rawValue, 0x01, 0x85]))
+    val = try DERParser.parse(der: Data([DERParser.Tag.integer.rawValue, 0x01, 0x85]))
     XCTAssert(val is ASN1Integer)
     if let int = val as? ASN1Integer {
       XCTAssertEqual(int.swiftValue, -5)
@@ -77,8 +77,8 @@ final class ParseValueTests: XCTestCase {
       0x8d, 0xee, 0xf0, 0xf1, 0x17, 0x1e, 0xd2, 0x5f,
       0x31, 0x5b, 0xb1, 0x9c, 0xbc, 0x20, 0x55, 0xbf,
       0x3a, 0x37, 0x42, 0x45, 0x75, 0xdc, 0x90, 0x65]
-    val = try ASN1Parser.parseDER(Data([
-      ASN1Parser.Tag.integer.rawValue, 0x81, 0x81, 0x00
+    val = try DERParser.parse(der: Data([
+      DERParser.Tag.integer.rawValue, 0x81, 0x81, 0x00
     ] + longUIntData))
     XCTAssert(val is ASN1Integer)
     if let int = val as? ASN1Integer {
@@ -88,27 +88,27 @@ final class ParseValueTests: XCTestCase {
   }
   
   func testParseNull() throws {
-    let val: ASN1Value  = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.null.rawValue, 0x00]))
+    let val: ASN1Value  = try DERParser.parse(der: Data([DERParser.Tag.null.rawValue, 0x00]))
     XCTAssert(val is ASN1Null)
     
     // failed parsing wrong bool values
-    XCTAssertThrowsError(try ASN1Parser.parseDER(Data([ASN1Parser.Tag.null.rawValue, 0x01, 0x00])))
+    XCTAssertThrowsError(try DERParser.parse(der: Data([DERParser.Tag.null.rawValue, 0x01, 0x00])))
   }
   
   func testParseObjectIdentifier() throws {
-    var val: ASN1Value = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.objectIdentifier.rawValue, 0x07, 0x2A, 0x86, 0x48, 0xCE, 0x3D, 0x02, 0x01]))
+    var val: ASN1Value = try DERParser.parse(der: Data([DERParser.Tag.objectIdentifier.rawValue, 0x07, 0x2A, 0x86, 0x48, 0xCE, 0x3D, 0x02, 0x01]))
     XCTAssert(val is ASN1ObjectIdentifier)
     if let objectID = val as? ASN1ObjectIdentifier {
       XCTAssertEqual(objectID.id, "1.2.840.10045.2.1")
     }
     
-    val = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.objectIdentifier.rawValue, 0x08, 0x2A, 0x86, 0x48, 0xCE, 0x3D, 0x03, 0x01, 0x07]))
+    val = try DERParser.parse(der: Data([DERParser.Tag.objectIdentifier.rawValue, 0x08, 0x2A, 0x86, 0x48, 0xCE, 0x3D, 0x03, 0x01, 0x07]))
     XCTAssert(val is ASN1ObjectIdentifier)
     if let objectID = val as? ASN1ObjectIdentifier {
       XCTAssertEqual(objectID.id, "1.2.840.10045.3.1.7")
     }
     
-    val = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.objectIdentifier.rawValue, 0x09, 0x2b, 0x06, 0x01, 0x04, 0x01, 0x82, 0x37, 0x15, 0x14]))
+    val = try DERParser.parse(der: Data([DERParser.Tag.objectIdentifier.rawValue, 0x09, 0x2b, 0x06, 0x01, 0x04, 0x01, 0x82, 0x37, 0x15, 0x14]))
     XCTAssert(val is ASN1ObjectIdentifier)
     if let objectID = val as? ASN1ObjectIdentifier {
       XCTAssertEqual(objectID.id, "1.3.6.1.4.1.311.21.20")
@@ -116,16 +116,16 @@ final class ParseValueTests: XCTestCase {
     
     
     // empty input
-    XCTAssertThrowsError(try ASN1Parser.parseDER(Data([ASN1Parser.Tag.objectIdentifier.rawValue, 0x00])))
+    XCTAssertThrowsError(try DERParser.parse(der: Data([DERParser.Tag.objectIdentifier.rawValue, 0x00])))
     // a leading bit states that there is more bytes when there is not
-    XCTAssertThrowsError(try ASN1Parser.parseDER(Data([ASN1Parser.Tag.objectIdentifier.rawValue, 0x09, 0x2b, 0x06, 0x01, 0x04, 0x01, 0x82, 0x37, 0x15, 0x94])))
+    XCTAssertThrowsError(try DERParser.parse(der: Data([DERParser.Tag.objectIdentifier.rawValue, 0x09, 0x2b, 0x06, 0x01, 0x04, 0x01, 0x82, 0x37, 0x15, 0x94])))
   }
   
   func testParseSequence() throws {
     // single element in sequence
-    let val = try ASN1Parser.parseDER(Data([
-      ASN1Parser.Tag.sequence.rawValue, 0x03,
-        ASN1Parser.Tag.boolean.rawValue, 0x01, 0x01
+    let val = try DERParser.parse(der: Data([
+      DERParser.Tag.sequence.rawValue, 0x03,
+        DERParser.Tag.boolean.rawValue, 0x01, 0x01
     ]))
     XCTAssert(val is ASN1Sequence)
     if let sequence = val as? ASN1Sequence {
@@ -137,11 +137,11 @@ final class ParseValueTests: XCTestCase {
     }
     
     // multiple elements in sequence
-    let val2 = try ASN1Parser.parseDER(Data([
-      ASN1Parser.Tag.sequence.rawValue, 0x09,
-        ASN1Parser.Tag.boolean.rawValue, 0x01, 0x00,
-        ASN1Parser.Tag.boolean.rawValue, 0x01, 0x01,
-        ASN1Parser.Tag.boolean.rawValue, 0x01, 0x00
+    let val2 = try DERParser.parse(der: Data([
+      DERParser.Tag.sequence.rawValue, 0x09,
+        DERParser.Tag.boolean.rawValue, 0x01, 0x00,
+        DERParser.Tag.boolean.rawValue, 0x01, 0x01,
+        DERParser.Tag.boolean.rawValue, 0x01, 0x00
     ]))
     XCTAssert(val2 is ASN1Sequence)
     if let sequence = val2 as? ASN1Sequence {
@@ -164,6 +164,6 @@ final class ParseValueTests: XCTestCase {
     }
     
     // failed parsing - empty sequence
-    XCTAssertThrowsError(try ASN1Parser.parseDER(Data([ASN1Parser.Tag.sequence.rawValue, 0x00])))
+    XCTAssertThrowsError(try DERParser.parse(der: Data([DERParser.Tag.sequence.rawValue, 0x00])))
   }
 }

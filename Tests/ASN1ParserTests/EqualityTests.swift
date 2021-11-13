@@ -5,9 +5,9 @@ import XCTest
 final class EqualityTests: XCTestCase {
   func testBooleanEquality() throws {
     let bool1 = ASN1Boolean(false)
-    let bool2 = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.boolean.rawValue, 0x01, 0x00]))
+    let bool2 = try DERParser.parse(der: Data([DERParser.Tag.boolean.rawValue, 0x01, 0x00]))
     let bool3 = ASN1Boolean(true)
-    let bool4 = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.boolean.rawValue, 0x01, 0x01]))
+    let bool4 = try DERParser.parse(der: Data([DERParser.Tag.boolean.rawValue, 0x01, 0x01]))
     
     XCTAssert(bool2 is ASN1Boolean)
     XCTAssert(bool4 is ASN1Boolean)
@@ -49,7 +49,7 @@ final class EqualityTests: XCTestCase {
     let oid2 = try ASN1ObjectIdentifier(nodes: [1, 2, 840, 10045, 3, 1, 7])
     
     let oid3 = try ASN1ObjectIdentifier(nodes: [1, 39, 840, 10045, 3, 1])
-    let oid4 = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.objectIdentifier.rawValue, 0x07, 0x4F, 0x86, 0x48, 0xCE, 0x3D, 0x03, 0x01]))
+    let oid4 = try DERParser.parse(der: Data([DERParser.Tag.objectIdentifier.rawValue, 0x07, 0x4F, 0x86, 0x48, 0xCE, 0x3D, 0x03, 0x01]))
     XCTAssert(oid4 is ASN1ObjectIdentifier)
     if let oid4 = oid4 as? ASN1ObjectIdentifier {
       XCTAssertEqual(oid1, oid2)
@@ -65,16 +65,16 @@ final class EqualityTests: XCTestCase {
   
   func testSequenceEquality() throws {
     let seq = ASN1Sequence(ASN1Boolean(false))
-    let seq2 = try ASN1Parser.parseDER(Data([
-      ASN1Parser.Tag.sequence.rawValue, 0x03,
-        ASN1Parser.Tag.boolean.rawValue, 0x01, 0x00
+    let seq2 = try DERParser.parse(der: Data([
+      DERParser.Tag.sequence.rawValue, 0x03,
+        DERParser.Tag.boolean.rawValue, 0x01, 0x00
     ]))
     let seq3 = ASN1Sequence(ASN1Boolean(false), ASN1Boolean(true), ASN1Boolean(false))
-    let seq4 = try ASN1Parser.parseDER(Data([
-      ASN1Parser.Tag.sequence.rawValue, 0x09,
-        ASN1Parser.Tag.boolean.rawValue, 0x01, 0x00,
-        ASN1Parser.Tag.boolean.rawValue, 0x01, 0x01,
-        ASN1Parser.Tag.boolean.rawValue, 0x01, 0x00
+    let seq4 = try DERParser.parse(der: Data([
+      DERParser.Tag.sequence.rawValue, 0x09,
+        DERParser.Tag.boolean.rawValue, 0x01, 0x00,
+        DERParser.Tag.boolean.rawValue, 0x01, 0x01,
+        DERParser.Tag.boolean.rawValue, 0x01, 0x00
     ]))
     
     XCTAssert(seq2 is ASN1Sequence)
