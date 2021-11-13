@@ -121,6 +121,31 @@ final class ParseValueTests: XCTestCase {
     XCTAssertThrowsError(try DERParser.parse(der: Data([DERParser.Tag.objectIdentifier.rawValue, 0x09, 0x2b, 0x06, 0x01, 0x04, 0x01, 0x82, 0x37, 0x15, 0x94])))
   }
   
+  func testParseBitString() throws {
+    let bitstringData: [UInt8] = [0x47, 0xeb, 0x99, 0x5a, 0xdf, 0x9e, 0x70, 0x0d, 0xfb, 0xa7, 0x31, 0x32, 0xc1, 0x5f]
+    let bitstringString = "0100011111101011100110010101101011011111100111100111000000001101111110111010011100110001001100101100000101011111"
+    
+    var val: ASN1Value = try DERParser.parse(der: Data([DERParser.Tag.bitString.rawValue, 0x0F, 0x00] + bitstringData))
+    XCTAssert(val is ASN1BitString)
+    if let bitstring = val as? ASN1BitString {
+      XCTAssertEqual(bitstring.value, Data(bitstringData))
+      XCTAssertEqual(bitstring.string, bitstringString)
+    }
+    
+    val = try DERParser.parse(der: Data([DERParser.Tag.bitString.rawValue, 0x0F, 0x03] + bitstringData))
+    XCTAssert(val is ASN1BitString)
+    if let bitstring = val as? ASN1BitString {
+      XCTAssertEqual(bitstring.string, String(bitstringString.dropLast(3)))
+    }
+    
+    // empty input
+    XCTAssertThrowsError(try DERParser.parse(der: Data([DERParser.Tag.bitString.rawValue, 0x00])))
+    // wrong last unused field
+    XCTAssertThrowsError(try DERParser.parse(der: Data([DERParser.Tag.bitString.rawValue, 0x03, 0x09, 0xAF, 0xFA])))
+    // missing bitstring data
+    XCTAssertThrowsError(try DERParser.parse(der: Data([DERParser.Tag.bitString.rawValue, 0x01, 0x03])))
+  }
+  
   func testParseSequence() throws {
     // single element in sequence
     let val = try DERParser.parse(der: Data([

@@ -16,6 +16,7 @@ enum ASN1ParsingError: Error {
   case invalidInteger
   case invalidNull
   case invalidObjectIdentifier
+  case invalidBitString
   case invalidSequence
   
   case illegalInstantiation

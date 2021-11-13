@@ -86,6 +86,8 @@ extension DERParser {
       value = try ASN1Integer(der: derView)
     case .objectIdentifier:
       value = try ASN1ObjectIdentifier(der: derView)
+    case .bitString:
+      value = try ASN1BitString(der: derView)
     case .sequence:
       value = try ASN1Sequence(der: derView)
     default:

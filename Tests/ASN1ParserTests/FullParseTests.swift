@@ -10,10 +10,7 @@ final class FullParseTests: XCTestCase {
     }
     
     // XCTExpectFailure appears to unsupported on other platforms
-    #if os(OSX)
-    XCTExpectFailure("ASN1Parser does not yet fully implement all required value types")
     let tree = try DERParser.parse(der: derData)
     print(tree)
-    #endif
   }
 }
