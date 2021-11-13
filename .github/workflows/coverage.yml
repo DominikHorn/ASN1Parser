@@ -1,0 +1,21 @@
+name: Coverage
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Execute
+        run: swift test --enable-code-coverage --parallel
+      - name: Locate Coverage Files
+        run: swift test --show-codecov-path >> $CODECOV_FILE
+      - name: Export Coverage
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          env_vars: CODECOV_FILE
+          fail_ci_if_error: true
+          files: ${{ env.CODECOV_FILE }}
+          flags: unittests
+          name: codecov-umbrella
+          verbose: true
