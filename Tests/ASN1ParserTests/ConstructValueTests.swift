@@ -50,6 +50,35 @@ final class ConstructValueTests: XCTestCase {
     XCTAssertThrowsError(try ASN1Null(data: Data([0x01])))
     XCTAssertThrowsError(try ASN1Null(data: Data([0xfa, 0xaf])))
   }
+  
+  func testConstructObjectIdentifier() throws {
+    XCTAssertNoThrow(try ASN1ObjectIdentifier(id: "0.2.840.10045.3.1.7"))
+    XCTAssertNoThrow(try ASN1ObjectIdentifier(id: "1.2.840.10045.3.1.7"))
+    XCTAssertNoThrow(try ASN1ObjectIdentifier(id: "2.2.840.10045.3.1.7"))
+    XCTAssertNoThrow(try ASN1ObjectIdentifier(id: "3.2.840.10045.3.1.7"))
+    XCTAssertNoThrow(try ASN1ObjectIdentifier(id: "3.39.840.10045.3.1.7"))
+    XCTAssertNoThrow(try ASN1ObjectIdentifier(id: "3.0.840.10045.3.1.7"))
+    XCTAssertNoThrow(try ASN1ObjectIdentifier(id: "3.15.840.10045.3.1.7"))
+    XCTAssertThrowsError(try ASN1ObjectIdentifier(id: "4.2.840.10045.3.1.7"))
+    XCTAssertThrowsError(try ASN1ObjectIdentifier(id: "42.2.840.10045.3.1.7"))
+    XCTAssertThrowsError(try ASN1ObjectIdentifier(id: "128.2.840.10045.3.1.7"))
+    XCTAssertThrowsError(try ASN1ObjectIdentifier(id: "3.40.840.10045.3.1.7"))
+    XCTAssertThrowsError(try ASN1ObjectIdentifier(id: "3.200.840.10045.3.1.7"))
+    
+    XCTAssertNoThrow(try ASN1ObjectIdentifier(nodes: [0, 2, 840, 10045, 3, 1, 7]))
+    XCTAssertNoThrow(try ASN1ObjectIdentifier(nodes: [1, 2, 840, 10045, 3, 1, 7]))
+    XCTAssertNoThrow(try ASN1ObjectIdentifier(nodes: [2, 2, 840, 10045, 3, 1, 7]))
+    XCTAssertNoThrow(try ASN1ObjectIdentifier(nodes: [3, 2, 840, 10045, 3, 1, 7]))
+    XCTAssertNoThrow(try ASN1ObjectIdentifier(nodes: [1, 39, 840, 10045, 3, 1, 7]))
+    XCTAssertNoThrow(try ASN1ObjectIdentifier(nodes: [1, 0, 840, 10045, 3, 1, 7]))
+    XCTAssertNoThrow(try ASN1ObjectIdentifier(nodes: [1, 27, 840, 10045, 3, 1, 7]))
+    XCTAssertThrowsError(try ASN1ObjectIdentifier(nodes: [4, 29, 840, 10045, 3, 1, 7]))
+    XCTAssertThrowsError(try ASN1ObjectIdentifier(nodes: [68, 29, 840, 10045, 3, 1, 7]))
+    XCTAssertThrowsError(try ASN1ObjectIdentifier(nodes: [130, 29, 840, 10045, 3, 1, 7]))
+    XCTAssertThrowsError(try ASN1ObjectIdentifier(nodes: [130, 29, 840, 10045, 3, 1, 7]))
+    XCTAssertThrowsError(try ASN1ObjectIdentifier(nodes: [1, 40, 840, 10045, 3, 1, 7]))
+    XCTAssertThrowsError(try ASN1ObjectIdentifier(nodes: [1, 1000232, 840, 10045, 3, 1, 7]))
+  }
                    
   func testConstructSequence() throws {
     XCTAssertThrowsError(try ASN1Sequence([]))

@@ -9,4 +9,5 @@ import Foundation
 
 enum ASN1ConstructionError: Error {
   case emptySequence
+  case invalidObjectIdentifierNode(index: Int)
 }

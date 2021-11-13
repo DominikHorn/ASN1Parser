@@ -95,6 +95,32 @@ final class ParseValueTests: XCTestCase {
     XCTAssertThrowsError(try ASN1Parser.parseDER(Data([ASN1Parser.Tag.null.rawValue, 0x01, 0x00])))
   }
   
+  func testParseObjectIdentifier() throws {
+    var val: ASN1Value = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.objectIdentifier.rawValue, 0x07, 0x2A, 0x86, 0x48, 0xCE, 0x3D, 0x02, 0x01]))
+    XCTAssert(val is ASN1ObjectIdentifier)
+    if let objectID = val as? ASN1ObjectIdentifier {
+      XCTAssertEqual(objectID.id, "1.2.840.10045.2.1")
+    }
+    
+    val = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.objectIdentifier.rawValue, 0x08, 0x2A, 0x86, 0x48, 0xCE, 0x3D, 0x03, 0x01, 0x07]))
+    XCTAssert(val is ASN1ObjectIdentifier)
+    if let objectID = val as? ASN1ObjectIdentifier {
+      XCTAssertEqual(objectID.id, "1.2.840.10045.3.1.7")
+    }
+    
+    val = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.objectIdentifier.rawValue, 0x09, 0x2b, 0x06, 0x01, 0x04, 0x01, 0x82, 0x37, 0x15, 0x14]))
+    XCTAssert(val is ASN1ObjectIdentifier)
+    if let objectID = val as? ASN1ObjectIdentifier {
+      XCTAssertEqual(objectID.id, "1.3.6.1.4.1.311.21.20")
+    }
+    
+    
+    // empty input
+    XCTAssertThrowsError(try ASN1Parser.parseDER(Data([ASN1Parser.Tag.objectIdentifier.rawValue, 0x00])))
+    // a leading bit states that there is more bytes when there is not
+    XCTAssertThrowsError(try ASN1Parser.parseDER(Data([ASN1Parser.Tag.objectIdentifier.rawValue, 0x09, 0x2b, 0x06, 0x01, 0x04, 0x01, 0x82, 0x37, 0x15, 0x94])))
+  }
+  
   func testParseSequence() throws {
     // single element in sequence
     let val = try ASN1Parser.parseDER(Data([

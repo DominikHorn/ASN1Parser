@@ -44,7 +44,24 @@ final class EqualityTests: XCTestCase {
     XCTAssertEqual(ASN1Null(), try ASN1Null(data: Data()))
   }
   
-  // TODO(dominik) equality integer, null etc tests!
+  func testObjectIdentifierEquality() throws {
+    let oid1 = try ASN1ObjectIdentifier(id: "1.2.840.10045.3.1.7")
+    let oid2 = try ASN1ObjectIdentifier(nodes: [1, 2, 840, 10045, 3, 1, 7])
+    
+    let oid3 = try ASN1ObjectIdentifier(nodes: [1, 39, 840, 10045, 3, 1])
+    let oid4 = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.objectIdentifier.rawValue, 0x07, 0x4F, 0x86, 0x48, 0xCE, 0x3D, 0x03, 0x01]))
+    XCTAssert(oid4 is ASN1ObjectIdentifier)
+    if let oid4 = oid4 as? ASN1ObjectIdentifier {
+      XCTAssertEqual(oid1, oid2)
+      XCTAssertNotEqual(oid1, oid3)
+      XCTAssertNotEqual(oid1, oid4)
+      
+      XCTAssertNotEqual(oid2, oid3)
+      XCTAssertNotEqual(oid2, oid4)
+      
+      XCTAssertEqual(oid3, oid4)
+    }
+  }
   
   func testSequenceEquality() throws {
     let seq = ASN1Sequence(ASN1Boolean(false))

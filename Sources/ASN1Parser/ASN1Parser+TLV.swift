@@ -84,6 +84,8 @@ extension ASN1Parser {
       value = try ASN1Boolean(data: dataView)
     case .integer:
       value = try ASN1Integer(data: dataView)
+    case .objectIdentifier:
+      value = try ASN1ObjectIdentifier(data: dataView)
     case .sequence:
       value = try ASN1Sequence(data: dataView)
     default:
