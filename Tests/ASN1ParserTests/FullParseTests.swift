@@ -14,5 +14,6 @@ final class FullParseTests: XCTestCase {
     XCTExpectFailure("ASN1Parser does not yet fully implement all required value types")
     let tree = try DERParser.parse(der: derData)
     print(tree)
+    #endif
   }
 }
