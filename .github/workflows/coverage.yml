@@ -19,4 +19,4 @@ jobs:
           filename: coverage-badge.json
           label: Coverage
           message: ${{ env.CODECOV }}
-          color: orange
+          color: blue
