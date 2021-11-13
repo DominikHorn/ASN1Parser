@@ -1,5 +1,8 @@
 name: Tests
-on: [push]
+on:
+  push:
+    branches:
+      - main
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -9,4 +12,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Passing
-        run: swift test
+        run: swift test --parallel

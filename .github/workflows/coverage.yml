@@ -5,17 +5,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Execute
+      - name: Generate Coverage
         run: swift test --enable-code-coverage --parallel
-      - name: Locate Coverage Files
-        run: echo "CODECOV_FILE=$(swift test --show-codecov-path)" >> $GITHUB_ENV
       - name: Export Coverage
-        uses: codecov/codecov-action@v2
+        uses: mattpolzin/swift-codecov-action@0.6.0
+      - name: DEBUG
+        run: echo $CODECOV
+      - name: Create Badge
+        uses: schneegans/dynamic-badges-action@v1.1.0
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          env_vars: CODECOV_FILE
-          fail_ci_if_error: true
-          files: ${{ env.CODECOV_FILE }}
-          flags: unittests
-          name: codecov-umbrella
-          verbose: true
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: abb8b96dc5a9b8354fb3d70216aedc7d
+          filename: coverage-badge.json
+          label: Coverage
+          message: ${{ env.CODECOV }}
+          color: blue
