@@ -25,19 +25,15 @@ final class ParseValueTests: XCTestCase {
   }
   
   func testParseBoolean() throws {
-    var val: ASN1Value?
-    
-    // false value
-    XCTAssertNoThrow(val = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.boolean.rawValue, 0x01, 0x00])))
-    XCTAssertNotNil(val)
+    // false alue
+    var val: ASN1Value = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.boolean.rawValue, 0x01, 0x00]))
     XCTAssert(val is ASN1Boolean)
     if let bool = val as? ASN1Boolean {
       XCTAssert(false == bool.swiftValue)
     }
     
     // true value
-    XCTAssertNoThrow(val = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.boolean.rawValue, 0x01, 0x01])))
-    XCTAssertNotNil(val)
+    val = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.boolean.rawValue, 0x01, 0x01]))
     XCTAssert(val is ASN1Boolean)
     if let bool = val as? ASN1Boolean {
       XCTAssert(true == bool.swiftValue)
@@ -52,17 +48,13 @@ final class ParseValueTests: XCTestCase {
   }
   
   func testParseInteger() throws {
-    var val: ASN1Value?
-    
-    XCTAssertNoThrow(val = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.integer.rawValue, 0x01, 0x03])))
-    XCTAssertNotNil(val)
+    var val: ASN1Value = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.integer.rawValue, 0x01, 0x03]))
     XCTAssert(val is ASN1Integer)
     if let int = val as? ASN1Integer {
       XCTAssert(3 == int.swiftValue)
     }
 
-    XCTAssertNoThrow(val = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.integer.rawValue, 0x01, 0x85])))
-    XCTAssertNotNil(val)
+    val = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.integer.rawValue, 0x01, 0x85]))
     XCTAssert(val is ASN1Integer)
     if let int = val as? ASN1Integer {
       XCTAssert(-5 == int.swiftValue)
@@ -85,10 +77,9 @@ final class ParseValueTests: XCTestCase {
       0x8d, 0xee, 0xf0, 0xf1, 0x17, 0x1e, 0xd2, 0x5f,
       0x31, 0x5b, 0xb1, 0x9c, 0xbc, 0x20, 0x55, 0xbf,
       0x3a, 0x37, 0x42, 0x45, 0x75, 0xdc, 0x90, 0x65]
-    XCTAssertNoThrow(val = try ASN1Parser.parseDER(Data([
+    val = try ASN1Parser.parseDER(Data([
       ASN1Parser.Tag.integer.rawValue, 0x81, 0x81, 0x00
-    ] + longUIntData)))
-    XCTAssertNotNil(val)
+    ] + longUIntData))
     XCTAssert(val is ASN1Integer)
     if let int = val as? ASN1Integer {
       let referenceVal = BigInt(sign: .plus, magnitude: BigUInt(Data(longUIntData)))
@@ -97,10 +88,7 @@ final class ParseValueTests: XCTestCase {
   }
   
   func testParseNull() throws {
-    var val: ASN1Value?
-    
-    XCTAssertNoThrow(val = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.null.rawValue, 0x00])))
-    XCTAssertNotNil(val)
+    let val: ASN1Value  = try ASN1Parser.parseDER(Data([ASN1Parser.Tag.null.rawValue, 0x00]))
     XCTAssert(val is ASN1Null)
     
     // failed parsing wrong bool values
@@ -153,4 +141,3 @@ final class ParseValueTests: XCTestCase {
     XCTAssertThrowsError(try ASN1Parser.parseDER(Data([ASN1Parser.Tag.sequence.rawValue, 0x00])))
   }
 }
-
