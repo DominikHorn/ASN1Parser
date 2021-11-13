@@ -1,6 +1,7 @@
 # ASN1Parser
 
 ![tests](https://github.com/DominikHorn/ASN1Parser/actions/workflows/test.yml/badge.svg)
+[![codecov](https://codecov.io/gh/DominikHorn/ASN1Parser/branch/main/graph/badge.svg?token=8PP6V9U2BO)](https://codecov.io/gh/DominikHorn/ASN1Parser)
 
 Implementation of ASN.1 parsing in swift. Please note that I will only
 implement functionality that I require for other upstream projects. I decided
