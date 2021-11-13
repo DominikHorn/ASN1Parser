@@ -8,16 +8,11 @@ jobs:
       - name: Execute
         run: swift test --enable-code-coverage --parallel
       - name: Locate Coverage Files
-        run: echo "CODECOV_FILE=$(swift test --show-codecov-path)" >> $GITHUB_ENV
-      - name: "[TMP] PRINT COVERAGE FILE"
-        run: cat $CODECOV_FILE
-          # - name: Export Coverage
-          #   uses: codecov/codecov-action@v2
-          #   with:
-          #     token: ${{ secrets.CODECOV_TOKEN }}
-          #     env_vars: CODECOV_FILE
-          #     fail_ci_if_error: true
-          #     files: ${{ env.CODECOV_FILE }}
-          #     flags: unittests
-          #     name: codecov-umbrella
-          #     verbose: true
+        run: echo "CODECOV_DIR=$(swift test --show-codecov-path | xargs dirname)" >> $GITHUB_ENV
+      - name: Export Coverage
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
+          directory: ${{ env.CODECOV_DIR }}
+          verbose: true
