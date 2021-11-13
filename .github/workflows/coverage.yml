@@ -5,7 +5,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Generate
+      - name: Generate Coverage
         run: swift test --enable-code-coverage --parallel
-      - name: Export Coverage
         uses: mattpolzin/swift-codecov-action@0.6.0
+      - name: DEBUG
+        run: echo $CODECOV
+      - name: Create Awesome Badge
+        uses: schneegans/dynamic-badges-action@v1.1.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: abb8b96dc5a9b8354fb3d70216aedc7d
+          filename: coverage-badge.json
+          label: Coverage
+          message: ${{ env.CODECOV }}
+          color: orange
