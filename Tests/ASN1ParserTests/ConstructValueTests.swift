@@ -82,21 +82,18 @@ final class ConstructValueTests: XCTestCase {
 
   func testConstructBitString() throws {
     let bitstringData: [UInt8] = [0x47, 0xeb, 0x99, 0x5a, 0xdf, 0x9e, 0x70, 0x0d, 0xfb, 0xa7, 0x31, 0x32, 0xc1, 0x5f]
-    var referenceBitstring: ASN1Value = try DERParser.parse(der: Data([DERParser.Tag.bitString.rawValue, 0x0F, 0x00] + bitstringData))
-    XCTAssert(referenceBitstring is ASN1BitString)
-    if let referenceBitstring = referenceBitstring as? ASN1BitString {
-      XCTAssertEqual(ASN1BitString(value: bitstringData, paddingLength: 0), referenceBitstring)
-      XCTAssertEqual(ASN1BitString(value: referenceBitstring.bytes, paddingLength: referenceBitstring.paddingLength), referenceBitstring)
-      XCTAssertEqual(ASN1BitString(value: [0x00] + bitstringData, paddingLength: 8), referenceBitstring)
-      XCTAssertEqual(ASN1BitString(value: [0x00, 0x00, 0x00] + bitstringData, paddingLength: 3 * 8), referenceBitstring)
-    }
+    XCTAssertEqual(ASN1BitString(value: bitstringData, paddingLength: 0).bytes, bitstringData)
+    XCTAssertEqual(ASN1BitString(value: bitstringData, paddingLength: 0).paddingLength, 0)
     
-    referenceBitstring = try DERParser.parse(der: Data([DERParser.Tag.bitString.rawValue, 0x0F, 0x03] + bitstringData))
-    XCTAssert(referenceBitstring is ASN1BitString)
-    if let referenceBitstring = referenceBitstring as? ASN1BitString {
-      XCTAssertEqual(ASN1BitString(value: referenceBitstring.bytes, paddingLength: referenceBitstring.paddingLength), referenceBitstring)
-      XCTAssertEqual(ASN1BitString(value: [0x00] + referenceBitstring.bytes, paddingLength: 8 + referenceBitstring.paddingLength), referenceBitstring)
-    }
+    XCTAssertEqual(ASN1BitString(value: [0x00] + bitstringData, paddingLength: 8).bytes, bitstringData)
+    XCTAssertEqual(ASN1BitString(value: [0x00] + bitstringData, paddingLength: 8).paddingLength, 0)
+    
+    XCTAssertEqual(ASN1BitString(value: [0x00, 0x00, 0x00] + bitstringData, paddingLength: 3 * 8).bytes, bitstringData)
+    XCTAssertEqual(ASN1BitString(value: [0x00, 0x00, 0x00] + bitstringData, paddingLength: 3 * 8).paddingLength, 0)
+
+    let paddedData: [UInt8] = [0x08, 0xFD, 0x73, 0x2B, 0x5B, 0xF3, 0xCE, 0x01, 0xBF, 0x74, 0xE6, 0x26, 0x58, 0x2B]
+    XCTAssertEqual(ASN1BitString(value: paddedData, paddingLength: 3).bytes, paddedData)
+    XCTAssertEqual(ASN1BitString(value: paddedData, paddingLength: 3).paddingLength, 3)
   }
   
   func testConstructSequence() throws {

@@ -63,6 +63,33 @@ final class EqualityTests: XCTestCase {
     }
   }
   
+  func testBitStringEquality() throws {
+    let bitstringData: [UInt8] = [0x47, 0xeb, 0x99, 0x5a, 0xdf, 0x9e, 0x70, 0x0d, 0xfb, 0xa7, 0x31, 0x32, 0xc1, 0x5f]
+    let referenceBitstring1 = try DERParser.parse(der: Data([DERParser.Tag.bitString.rawValue, 0x0F, 0x00] + bitstringData))
+    let referenceBitstring2 = try DERParser.parse(der: Data([DERParser.Tag.bitString.rawValue, 0x0F, 0x03] + bitstringData))
+
+    XCTAssert(referenceBitstring1 is ASN1BitString)
+    XCTAssert(referenceBitstring2 is ASN1BitString)
+    if let referenceBitstring1 = referenceBitstring1 as? ASN1BitString, let referenceBitstring2 = referenceBitstring2 as? ASN1BitString {
+      let bs1 = ASN1BitString(value: bitstringData, paddingLength: 0)
+      let bs2 = ASN1BitString(value: referenceBitstring1.bytes, paddingLength: referenceBitstring1.paddingLength)
+      let bs3 = ASN1BitString(value: [0x00] + bitstringData, paddingLength: 8)
+      let bs4 = ASN1BitString(value: [0x00, 0x00, 0x00] + bitstringData, paddingLength: 3 * 8)
+      XCTAssertEqual(bs1, referenceBitstring1)
+      XCTAssertEqual(bs2, referenceBitstring1)
+      XCTAssertEqual(bs3, referenceBitstring1)
+      XCTAssertEqual(bs4, referenceBitstring1)
+      
+      let bs5 = ASN1BitString(value: referenceBitstring2.bytes, paddingLength: referenceBitstring2.paddingLength)
+      let bs6 = ASN1BitString(value: [0x00] + referenceBitstring2.bytes, paddingLength: 8 + referenceBitstring2.paddingLength)
+      XCTAssertEqual(bs5, referenceBitstring2)
+      XCTAssertEqual(bs6, referenceBitstring2)
+      
+      XCTAssertNotEqual(bs1, bs5)
+      XCTAssertNotEqual(bs1, bs6)
+    }
+  }
+  
   func testSequenceEquality() throws {
     let seq = ASN1Sequence(ASN1Boolean(false))
     let seq2 = try DERParser.parse(der: Data([
