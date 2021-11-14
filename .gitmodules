@@ -1,0 +1,3 @@
+[submodule "docc2html"]
+	path = docc2html
+	url = https://github.com/DoccZz/docc2html.git
