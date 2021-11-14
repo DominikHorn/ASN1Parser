@@ -7,9 +7,8 @@
 
 import Foundation
 
-/// Each instance represents a single ASN.1 NULL value
+/// Each instance represents a single ASN.1 Null value
 public struct ASN1Null: ASN1Value {
-  /// Construct an ASN.1 NULL value
   public init() {}
 }
 

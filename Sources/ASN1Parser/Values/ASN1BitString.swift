@@ -7,27 +7,27 @@
 
 import Foundation
 
-/// Each instance represents a single ASN.1 BIT STRING value
+/// Each instance represents a single ASN.1 Bit String value
 public struct ASN1BitString: ASN1Value {
   /**
-   Raw value of the BIT STRING.
+   Raw bytes of the Bit String, encoded in little endian.
    
-   Bytes are encoded in little endian, with the first byte
-   containing up to 7 leading padding zeroes. To find out
-   how many of the topmost bits are unused, you may utilize
+   The first byte may contain up to 7 leading padding zeroes.
+   To find out how many of the topmost bits are unused in the
+   first byte, you may utilize
    ``ASN1BitString/paddingLength``.
    */
   public var bytes: [UInt8]
   
-  /// Amount of leading padding bits in the BIT STRING
+  /// Amount of leading padding bits in ``ASN1BitString/bytes``
   public var paddingLength: Int
   
-  /// Amount of bits in this BIT STRING
+  /// Total amount of bits in this Bit String
   public var count: Int {
     bytes.count * 8 - paddingLength
   }
   
-  /// Binary encoded string representation of the BIT STRING
+  /// Binary encoded string representation
   public var string: String {
     String(
       bytes
@@ -38,7 +38,7 @@ public struct ASN1BitString: ASN1Value {
   }
   
   /**
-   Construct an ASN.1 BIT STRING value
+   Construct given
    - Parameters:
     - value: bytes of the bitstring in little endian order, i.e., least significant byte first. Any
         padding bytes should be prepended, i.e., padding bits begin in the leading bit of the first byte.
@@ -50,10 +50,9 @@ public struct ASN1BitString: ASN1Value {
   }
   
   /**
-   Accesses a single bit at the given index, taking padding into account
+   Accesses a single bit at the given index.
    
-   Index 0 corresponds to the first bit of the BIT STRING, i.e., padding
-   is ignored.
+   - Parameter index: Index into the Bit String, starting at 0 for the first value bit.
    */
   public subscript(index: Int) -> Bool {
     get {

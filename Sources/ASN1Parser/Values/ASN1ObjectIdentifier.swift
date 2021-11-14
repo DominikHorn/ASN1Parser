@@ -8,7 +8,7 @@
 import Foundation
 import BigInt
 
-/// Each instance represents a single ASN.1 OBJECT IDENTIFIER value
+/// Each instance represents a single ASN.1 Object Identifier value
 public struct ASN1ObjectIdentifier: ASN1Value {
   /// Individual object identifier nodes in order
   public var nodes = [BigUInt]()
@@ -21,10 +21,9 @@ public struct ASN1ObjectIdentifier: ASN1Value {
   }
   
   /**
-   Construct an ASN.1 OBJECT IDENTIFIER given its canonical string representation
+   Construct given a canonical Object Identifier string representation
    
-   - Parameter oid: canonical string representation, i.e., unsigned integer nodes
-      separated by a single '.' each
+   - Parameter oid: unsigned integer nodes separated by a single '.' each
    
    - Throws: ``ASN1ConstructionError/invalidObjectIdentifierNode(index:)`` if node at index is invalid.
       This can happen, e.g., if the first node's value is greater than 3 or the second node's value is greater or equal to 40
@@ -39,7 +38,7 @@ public struct ASN1ObjectIdentifier: ASN1Value {
   }
   
   /**
-   Construct an ASN.1 OBJECT IDENTIFIER given its individual node values
+   Construct given individual node values
    
    - Parameter nodes: node values in order
    
