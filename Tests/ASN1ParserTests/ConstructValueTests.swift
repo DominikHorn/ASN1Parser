@@ -79,7 +79,26 @@ final class ConstructValueTests: XCTestCase {
     XCTAssertThrowsError(try ASN1ObjectIdentifier(nodes: [1, 40, 840, 10045, 3, 1, 7]))
     XCTAssertThrowsError(try ASN1ObjectIdentifier(nodes: [1, 1000232, 840, 10045, 3, 1, 7]))
   }
-                   
+
+  func testConstructBitString() throws {
+    let bitstringData: [UInt8] = [0x47, 0xeb, 0x99, 0x5a, 0xdf, 0x9e, 0x70, 0x0d, 0xfb, 0xa7, 0x31, 0x32, 0xc1, 0x5f]
+    var referenceBitstring: ASN1Value = try DERParser.parse(der: Data([DERParser.Tag.bitString.rawValue, 0x0F, 0x00] + bitstringData))
+    XCTAssert(referenceBitstring is ASN1BitString)
+    if let referenceBitstring = referenceBitstring as? ASN1BitString {
+      XCTAssertEqual(ASN1BitString(value: bitstringData, paddingLength: 0), referenceBitstring)
+      XCTAssertEqual(ASN1BitString(value: referenceBitstring.bytes, paddingLength: referenceBitstring.paddingLength), referenceBitstring)
+      XCTAssertEqual(ASN1BitString(value: [0x00] + bitstringData, paddingLength: 8), referenceBitstring)
+      XCTAssertEqual(ASN1BitString(value: [0x00, 0x00, 0x00] + bitstringData, paddingLength: 3 * 8), referenceBitstring)
+    }
+    
+    referenceBitstring = try DERParser.parse(der: Data([DERParser.Tag.bitString.rawValue, 0x0F, 0x03] + bitstringData))
+    XCTAssert(referenceBitstring is ASN1BitString)
+    if let referenceBitstring = referenceBitstring as? ASN1BitString {
+      XCTAssertEqual(ASN1BitString(value: referenceBitstring.bytes, paddingLength: referenceBitstring.paddingLength), referenceBitstring)
+      XCTAssertEqual(ASN1BitString(value: [0x00] + referenceBitstring.bytes, paddingLength: 8 + referenceBitstring.paddingLength), referenceBitstring)
+    }
+  }
+  
   func testConstructSequence() throws {
     XCTAssertThrowsError(try ASN1Sequence([]))
     

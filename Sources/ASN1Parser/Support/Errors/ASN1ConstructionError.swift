@@ -10,4 +10,5 @@ import Foundation
 public enum ASN1ConstructionError: Error {
   case emptySequence
   case invalidObjectIdentifierNode(index: Int)
+  case insufficientBytesForBitStringLength
 }
