@@ -38,11 +38,9 @@ public struct ASN1BitString: ASN1Value {
   }
   
   /**
-   Construct given
-   - Parameters:
-    - value: bytes of the bitstring in little endian order, i.e., least significant byte first. Any
-        padding bytes should be prepended, i.e., padding bits begin in the leading bit of the first byte.
-    - paddingLength: Length of padding.
+   - Parameter value: bytes of the bitstring in little endian order, i.e., least significant byte first. Any
+      padding bytes should be prepended, i.e., padding bits begin in the leading bit of the first byte.
+   - Parameter paddingLength: Length of padding.
    */
   public init(value: [UInt8], paddingLength: Int) {
     self.bytes = .init(value.dropFirst(paddingLength / 8))
