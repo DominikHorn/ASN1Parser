@@ -4,7 +4,12 @@
 ![coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/DominikHorn/abb8b96dc5a9b8354fb3d70216aedc7d/raw/coverage-badge.json)
 
 
-Safety first ASN.1 parsing in Swift. Find it's documentation [here](https://dominikhorn.github.io/ASN1Parser/documentation/asn1parser/). 
+Safety first ASN.1 parsing in Swift. 
+
+## Documentation
+You may find precompiled static site documentation hosted [here](https://dominikhorn.github.io/ASN1Parser/documentation/asn1parser/).
+Alternatively, you may import `ASN1Parser.docc` into Xcode, preview locally using `preview-doc.sh` or build the static
+site on your own using `gen-doc.sh`.  
 
 ## Contributing 
 
