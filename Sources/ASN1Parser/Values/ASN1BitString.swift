@@ -22,34 +22,37 @@ public struct ASN1BitString: ASN1Value {
       bytes
         .map { String($0, radix: 2).leftPadding(toLength: 8, withPad: "0") }
         .joined(separator: "")
-        .dropLast(lastUnused)
+        .dropFirst(lastUnused)
     )
   }
   
   public var value: Data {
-    var out = [UInt8](repeating: 0x00, count: bytes.count)
-    
-    (0..<bytes.count).forEach { i in
-      out[i] = (bytes[i] >> lastUnused) | (i > 0 ? bytes[i-1] << (8 - lastUnused) : 0x00)
-    }
-    
-    return Data(out)
+    Data(bytes)
   }
   
   public subscript(index: Int) -> Bool {
     get {
-      bytes[index / 8].bit(at: index % 8)
+      // take unused bits into account
+      let realIndex = index + lastUnused
+      return bytes[realIndex / 8].bit(at: realIndex % 8)
     }
   }
 }
 
 extension ASN1BitString: ASN1LoadFromDER {
   init(der: Data) throws {
-    self.lastUnused = try Int(der.tryAccess(at: der.startIndex))
+    let lastUnused = try Int(der.tryAccess(at: der.startIndex))
     guard lastUnused <= 8, der.startIndex + 1 < der.endIndex else {
       throw ASN1ParsingError.invalidBitString
     }
-    self.bytes = .init(der[(der.startIndex+1)..<der.endIndex])
+    
+    let rawBytes = [UInt8](der[(der.startIndex+1)..<der.endIndex])
+    
+    // correctly shift in place on decode to avoid O(n) access cost
+    self.bytes = (0..<rawBytes.count).map { (i: Int) in
+        UInt8(rawBytes[i] >> lastUnused) | UInt8(i > 0 ? rawBytes[i-1] << (8 - lastUnused) : 0x00)
+      }
+    self.lastUnused = lastUnused
   }
 }
 
