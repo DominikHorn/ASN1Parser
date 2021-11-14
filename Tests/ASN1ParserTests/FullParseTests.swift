@@ -10,7 +10,7 @@ final class FullParseTests: XCTestCase {
     }
     
     let tree = try DERParser.parse(der: derData)
-    print(tree)
+    print(try tree.asSequence[1].asBitString)
   }
   
   func testRandomDER() throws {
@@ -25,5 +25,18 @@ final class FullParseTests: XCTestCase {
     
     let tree = try DERParser.parse(der: derData)
     print(tree)
+    
+    XCTAssertEqual(try tree.asSequence.count, 3)
+    XCTAssertEqual(try tree.asSequence[0].asSequence.count, 2)
+    XCTAssertEqual(try tree.asSequence[0].asSequence[0].asNull, ASN1Null())
+    XCTAssertEqual(try tree.asSequence[0].asSequence[1].asInt, ASN1Integer(-5))
+    XCTAssertEqual(try tree.asSequence[1].asBool, ASN1Boolean(true))
+    print(try tree.asSequence[2].asObjectIdentifier)
+    XCTAssertEqual(try tree.asSequence[2].asObjectIdentifier, try ASN1ObjectIdentifier(oid: "1.2.840.10045.2.1"))
+    
+    XCTAssertThrowsError(try tree.asInt)
+    XCTAssertThrowsError(try tree.asSequence[3])
+    XCTAssertThrowsError(try tree.asSequence[0].asSequence[1337])
+    XCTAssertThrowsError(try tree.asSequence[0].asBool)
   }
 }

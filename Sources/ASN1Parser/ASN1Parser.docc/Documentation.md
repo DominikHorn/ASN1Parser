@@ -11,8 +11,11 @@ Given the a DER encoded ASN.1 representation of a public key, for example as fou
 let pemBlob = "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEQPtmXeh4gkzq30Zq3LXdgcl39fgCOBRZExhNWgZTSv5NTvbRoZNx28Ln/+Wtkfc42nWdunurluAeMPr0BrnLtA=="
 guard let derData = Data(base64Encoded: pemBlob) else { return }
 
-// Parse DER into ASNValue. This is a tree like structure
+// Parse DER into ASN.1 value, which is a tree like structure
 let tree = try DERParser.parse(derData)
+
+// Access values within the tree
+let q = try tree.asSequence[1].asBitString
 ```
 
 ## Topics

@@ -37,6 +37,28 @@ public struct ASN1Sequence: ASN1Value {
     }
     self.values = values
   }
+  
+  /// Amount of ASN.1 values in this sequence
+  public var count: Int {
+    values.count
+  }
+  
+  /**
+   Accesses the sequence's value at `index`
+   
+   - Parameter index: Index into the sequence
+   
+   - Throws ``ASN1TraversalError/outOfBounds`` upon out of bounds access
+   */
+  public subscript(index: Int) -> ASN1Value {
+    get throws {
+      guard index >= 0, index < values.count else {
+        throw ASN1TraversalError.outOfBounds
+      }
+      
+      return values[index]
+    }
+  }
 }
 extension ASN1Sequence: Equatable {
   /// Two ASN.1 Sequences are equal if all their values (in order) are equal to one another
