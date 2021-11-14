@@ -47,34 +47,7 @@
   <h1 class="title">ASN1Parser</h1>
 </div>
 
-  <div class="container content-grid">
-  <div class="description">
-    <div class="abstract content">
-      Minimalistic library for parsing ASN.1 encoded data in Swift.
-    </div>
-  </div>
   
-  <!-- The sidebar once we have one: <div class="summary"></div> -->
-  
-  <div class="primary-content">
-    <div class='content'><h2 id='Example'>Example</h2><p>Given the a DER encoded ASN.1 representation of a public key, for example as found in <code>.pem</code> files:</p><div data-syntax="swift" class="code-listing">
-  <div class="container-general">
-    <pre><code><span class="code-line-container"><span data-line-number="1" class="code-number" style="display: none;"></span><span class="code-line">// Public key data blob from pem file</span></span>
-<span class="code-line-container"><span data-line-number="2" class="code-number" style="display: none;"></span><span class="code-line">let pemBlob = &quot;MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEQPtmXeh4gkzq30Zq3LXdgcl39fgCOBRZExhNWgZTSv5NTvbRoZNx28Ln/+Wtkfc42nWdunurluAeMPr0BrnLtA==&quot;</span></span>
-<span class="code-line-container"><span data-line-number="3" class="code-number" style="display: none;"></span><span class="code-line">guard let derData = Data(base64Encoded: pemBlob) else { return }</span></span>
-<span class="code-line-container"><span data-line-number="4" class="code-number" style="display: none;"></span><span class="code-line"></span></span>
-<span class="code-line-container"><span data-line-number="5" class="code-number" style="display: none;"></span><span class="code-line">// Parse DER into ASN.1 value, which is a tree like structure</span></span>
-<span class="code-line-container"><span data-line-number="6" class="code-number" style="display: none;"></span><span class="code-line">let tree = try DERParser.parse(derData)</span></span>
-<span class="code-line-container"><span data-line-number="7" class="code-number" style="display: none;"></span><span class="code-line"></span></span>
-<span class="code-line-container"><span data-line-number="8" class="code-number" style="display: none;"></span><span class="code-line">// Access values within the tree</span></span>
-<span class="code-line-container"><span data-line-number="9" class="code-number" style="display: none;"></span><span class="code-line">let q = try tree.asSequence[1].asBitString</span></span>
-</code></pre>
-  </div>
-</div>
-</div>
-  </div>
-</div>
-
   
   <section id='topics' class='contenttable alt-light'>
   <div class='container'>
@@ -83,29 +56,7 @@
     
       <div class="row contenttable-section">
         <div class="col section-title large-3 medium-3 small-12">
-          <h3 class="title">Parsing Data</h3>
-        </div>
-  
-        <div class="col section-content large-9 medium-9 small-12">
-          
-            <div class="link-block topic">
-              
-                <a href="../../documentation/ASN1Parser/DERParser/index.html" class="link has-adjacent-elements">
-                  <code class="decorated-title"><span class='decorator'>struct</span><span class='decorator empty-token'> </span><span class='identifier'>DERParser</span></code>
-                </a>
-              
-              
-              <div class="abstract">
-                <div class="content">Parser for reading DER encoded ASN.1 data</div>
-              </div>
-            </div>
-          
-        </div>
-      </div>
-    
-      <div class="row contenttable-section">
-        <div class="col section-title large-3 medium-3 small-12">
-          <h3 class="title">ASN.1 Value Types</h3>
+          <h3 class="title">Protocols</h3>
         </div>
   
         <div class="col section-content large-9 medium-9 small-12">
@@ -119,6 +70,28 @@
               
               <div class="abstract">
                 <div class="content">Generic ASN.1 value container, i.e., each ASN.1 Value conforms to this protocol</div>
+              </div>
+            </div>
+          
+        </div>
+      </div>
+    
+      <div class="row contenttable-section">
+        <div class="col section-title large-3 medium-3 small-12">
+          <h3 class="title">Structures</h3>
+        </div>
+  
+        <div class="col section-content large-9 medium-9 small-12">
+          
+            <div class="link-block topic">
+              
+                <a href="../../documentation/ASN1Parser/ASN1BitString/index.html" class="link has-adjacent-elements">
+                  <code class="decorated-title"><span class='decorator'>struct</span><span class='decorator empty-token'> </span><span class='identifier'>ASN1BitString</span></code>
+                </a>
+              
+              
+              <div class="abstract">
+                <div class="content">Each instance represents a single ASN.1 Bit String value</div>
               </div>
             </div>
           
@@ -172,18 +145,6 @@
           
             <div class="link-block topic">
               
-                <a href="../../documentation/ASN1Parser/ASN1BitString/index.html" class="link has-adjacent-elements">
-                  <code class="decorated-title"><span class='decorator'>struct</span><span class='decorator empty-token'> </span><span class='identifier'>ASN1BitString</span></code>
-                </a>
-              
-              
-              <div class="abstract">
-                <div class="content">Each instance represents a single ASN.1 Bit String value</div>
-              </div>
-            </div>
-          
-            <div class="link-block topic">
-              
                 <a href="../../documentation/ASN1Parser/ASN1Sequence/index.html" class="link has-adjacent-elements">
                   <code class="decorated-title"><span class='decorator'>struct</span><span class='decorator empty-token'> </span><span class='identifier'>ASN1Sequence</span></code>
                 </a>
@@ -194,15 +155,39 @@
               </div>
             </div>
           
+            <div class="link-block topic">
+              
+                <a href="../../documentation/ASN1Parser/DERParser/index.html" class="link has-adjacent-elements">
+                  <code class="decorated-title"><span class='decorator'>struct</span><span class='decorator empty-token'> </span><span class='identifier'>DERParser</span></code>
+                </a>
+              
+              
+              <div class="abstract">
+                <div class="content">Parser for reading DER encoded ASN.1 data</div>
+              </div>
+            </div>
+          
         </div>
       </div>
     
       <div class="row contenttable-section">
         <div class="col section-title large-3 medium-3 small-12">
-          <h3 class="title">Errors</h3>
+          <h3 class="title">Enumerations</h3>
         </div>
   
         <div class="col section-content large-9 medium-9 small-12">
+          
+            <div class="link-block topic">
+              
+                <a href="../../documentation/ASN1Parser/ASN1ConstructionError/index.html" class="link has-adjacent-elements">
+                  <code class="decorated-title"><span class='decorator'>enum</span><span class='decorator empty-token'> </span><span class='identifier'>ASN1ConstructionError</span></code>
+                </a>
+              
+              
+              <div class="abstract">
+                <div class="content">Errors thrown during construction of ASN.1 values</div>
+              </div>
+            </div>
           
             <div class="link-block topic">
               
@@ -225,18 +210,6 @@
               
               <div class="abstract">
                 <div class="content">Errors thrown during parsing of ASN.1 values</div>
-              </div>
-            </div>
-          
-            <div class="link-block topic">
-              
-                <a href="../../documentation/ASN1Parser/ASN1ConstructionError/index.html" class="link has-adjacent-elements">
-                  <code class="decorated-title"><span class='decorator'>enum</span><span class='decorator empty-token'> </span><span class='identifier'>ASN1ConstructionError</span></code>
-                </a>
-              
-              
-              <div class="abstract">
-                <div class="content">Errors thrown during construction of ASN.1 values</div>
               </div>
             </div>
           
