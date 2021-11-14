@@ -13,9 +13,11 @@ import Foundation
  Use the provided methods and accessors to traverse the ASN.1 value tree
  */
 public protocol ASN1Value {
+  /// Compares this ASN.1 value to `other`
   func isEqualTo(_ other: ASN1Value) -> Bool
 }
 
+// MARK: - Equatable
 public extension ASN1Value where Self: Equatable {
   func isEqualTo(_ other: ASN1Value) -> Bool {
     guard let other = other as? Self else { return false }

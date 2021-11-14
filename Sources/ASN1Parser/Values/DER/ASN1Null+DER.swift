@@ -11,7 +11,7 @@ extension ASN1Null: DERDecodable {
   /// https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-null
   init(der: Data) throws {
     guard der.isEmpty else {
-      throw ASN1ParsingError.invalidNull
+      throw ASN1ValueParsingError.invalidNull
     }
   }
 }

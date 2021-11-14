@@ -11,12 +11,12 @@ extension ASN1Boolean: DERDecodable {
   /// https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-boolean
   init(der: Data) throws {
     guard der.count == 1 else {
-      throw ASN1ParsingError.invalidTLVLength
+      throw ASN1DERParsingError.invalidTLVLength
     }
     
     let byte = try der.tryAccess(at: der.startIndex)
     guard byte == 0x00 || byte == 0x01 else {
-      throw ASN1ParsingError.invalidBoolean
+      throw ASN1ValueParsingError.invalidBoolean
     }
     
     swiftValue = byte != 0

@@ -12,7 +12,7 @@ extension ASN1Integer: DERDecodable {
   /// https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-integer
   init(der: Data) throws {
     guard let firstByte = der.first else {
-      throw ASN1ParsingError.invalidInteger
+      throw ASN1ValueParsingError.invalidInteger
     }
     
     var signed = firstByte.bit(at: 7)

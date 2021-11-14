@@ -23,7 +23,7 @@ extension DERParser {
         let trailingByteCount = Int(firstByte & ((0x1 << 7) - 1))
         
         guard trailingByteCount < MemoryLayout<Int>.size else {
-          throw ASN1ParsingError.unsupportedTLVLength
+          throw ASN1DERParsingError.unsupportedTLVLength
         }
 
         let dataView = der[offset..<(offset+trailingByteCount)]
@@ -51,7 +51,7 @@ extension DERParser {
     init(_ der: Data, offset: inout Data.Index) throws {
       let firstByte = try der.tryAccess(at: offset)
       guard let tag = Tag(rawValue: firstByte) else {
-        throw ASN1ParsingError.unreadableTag(firstByte)
+        throw ASN1DERParsingError.unreadableTag(firstByte)
       }
       self = tag
       offset += 1
@@ -64,7 +64,7 @@ extension DERParser {
     
     // perform bounds check before access
     guard length.value <= der.endIndex - offset else {
-      throw ASN1ParsingError.invalidTLVLength
+      throw ASN1DERParsingError.invalidTLVLength
     }
     
     // each tag identifies a specific ASN1Value

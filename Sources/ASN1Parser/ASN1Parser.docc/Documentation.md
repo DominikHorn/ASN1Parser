@@ -28,4 +28,11 @@ let tree = try DERParser.parse(derData)
 - ``ASN1Integer``
 - ``ASN1Null``
 - ``ASN1ObjectIdentifier``
+- ``ASN1BitString``
 - ``ASN1Sequence``
+
+### Errors
+
+- ``ASN1DERParsingError``
+- ``ASN1ValueParsingError``
+- ``ASN1ConstructionError``

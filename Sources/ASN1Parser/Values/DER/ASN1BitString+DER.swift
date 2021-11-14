@@ -12,7 +12,7 @@ extension ASN1BitString: DERDecodable {
   init(der: Data) throws {
     let lastUnused = try Int(der.tryAccess(at: der.startIndex))
     guard lastUnused <= 8, der.startIndex + 1 < der.endIndex else {
-      throw ASN1ParsingError.invalidBitString
+      throw ASN1ValueParsingError.invalidBitString
     }
     
     let rawBytes = [UInt8](der[(der.startIndex+1)..<der.endIndex])

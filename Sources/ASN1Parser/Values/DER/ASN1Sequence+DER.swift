@@ -16,7 +16,7 @@ extension ASN1Sequence: DERDecodable {
     }
     
     guard !values.isEmpty else {
-      throw ASN1ParsingError.invalidSequence
+      throw ASN1ValueParsingError.invalidSequence
     }
   }
 }

@@ -7,8 +7,11 @@
 
 import Foundation
 
+/// Errors thrown during construction of ASN.1 values
 public enum ASN1ConstructionError: Error {
+  /// Thrown when sequence is constructed with no values
   case emptySequence
+  
+  /// Thrown when the object identifier's node at `index` is invalid
   case invalidObjectIdentifierNode(index: Int)
-  case insufficientBytesForBitStringLength
 }
