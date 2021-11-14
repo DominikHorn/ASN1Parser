@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension ASN1Boolean: ASN1LoadFromDER {
+extension ASN1Boolean: DERDecodable {
   /// https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-boolean
   init(der: Data) throws {
     guard der.count == 1 else {

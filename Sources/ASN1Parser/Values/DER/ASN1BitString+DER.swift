@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension ASN1BitString: ASN1LoadFromDER {
+extension ASN1BitString: DERDecodable {
   /// https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-bit-string
   init(der: Data) throws {
     let lastUnused = try Int(der.tryAccess(at: der.startIndex))

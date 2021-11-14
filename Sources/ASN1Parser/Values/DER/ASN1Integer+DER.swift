@@ -8,7 +8,7 @@
 import Foundation
 import BigInt
 
-extension ASN1Integer: ASN1LoadFromDER {
+extension ASN1Integer: DERDecodable {
   /// https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-integer
   init(der: Data) throws {
     guard let firstByte = der.first else {

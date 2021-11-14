@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension ASN1Null: ASN1LoadFromDER {
+extension ASN1Null: DERDecodable {
   /// https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-null
   init(der: Data) throws {
     guard der.isEmpty else {

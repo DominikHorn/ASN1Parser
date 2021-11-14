@@ -8,7 +8,7 @@
 import Foundation
 import BigInt
 
-extension ASN1ObjectIdentifier: ASN1LoadFromDER {
+extension ASN1ObjectIdentifier: DERDecodable {
   /// https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-object-identifier
   init(der: Data) throws {
     let firstByte = try der.tryAccess(at: der.startIndex)

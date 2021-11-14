@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension ASN1Sequence: ASN1LoadFromDER {
+extension ASN1Sequence: DERDecodable {
   /// https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-sequence
   init(der: Data) throws {
     var offset = der.startIndex
