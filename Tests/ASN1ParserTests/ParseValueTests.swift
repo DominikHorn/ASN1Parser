@@ -130,7 +130,7 @@ final class ParseValueTests: XCTestCase {
     XCTAssert(val is ASN1BitString)
     if let bitstring = val as? ASN1BitString {
       XCTAssertEqual(bitstring.count, bitstringString.count)
-      XCTAssertEqual(bitstring.value, Data(bitstringData))
+      XCTAssertEqual(bitstring.bytes, bitstringData)
       XCTAssertEqual(bitstring.string, bitstringString)
       
       bitstringString.enumerated().forEach { i, char in

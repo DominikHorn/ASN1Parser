@@ -21,6 +21,6 @@ extension ASN1BitString: DERDecodable {
     self.bytes = (0..<rawBytes.count).map { (i: Int) in
         UInt8(rawBytes[i] >> lastUnused) | UInt8(i > 0 ? rawBytes[i-1] << (8 - lastUnused) : 0x00)
       }
-    self.lastUnused = lastUnused
+    self.paddingLength = lastUnused
   }
 }
