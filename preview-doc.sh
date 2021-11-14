@@ -20,7 +20,7 @@ find .build/symbol-graphs/* | grep -v ASN1Parser | xargs rm
 # 2. Preview as HTML
 DOCC=$(xcrun --find docc)
 DOCC_HTML_DIR="$(dirname "${DOCC}")/../share/docc/render"
-$DOCC preview Sources/ASN1Parser/ASN1Parser.docc \
+$DOCC preview ASN1Parser.docc \
   --fallback-display-name ASN1Parser \
   --fallback-bundle-identifier de.dhorn.ASN1Parser \
   --fallback-bundle-version 0.0.1 \
