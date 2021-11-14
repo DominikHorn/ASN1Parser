@@ -9,7 +9,20 @@ final class FullParseTests: XCTestCase {
       return
     }
     
-    // XCTExpectFailure appears to unsupported on other platforms
+    let tree = try DERParser.parse(der: derData)
+    print(tree)
+  }
+  
+  func testRandomDER() throws {
+    let derData = Data([
+      DERParser.Tag.sequence.rawValue, 0x13,
+        DERParser.Tag.sequence.rawValue, 0x05,
+          DERParser.Tag.null.rawValue, 0x00,
+          DERParser.Tag.integer.rawValue, 0x01, 0x85,
+        DERParser.Tag.boolean.rawValue, 0x01, 0x01,
+        DERParser.Tag.objectIdentifier.rawValue, 0x07, 0x2A, 0x86, 0x48, 0xCE, 0x3D, 0x02, 0x01,
+    ])
+    
     let tree = try DERParser.parse(der: derData)
     print(tree)
   }

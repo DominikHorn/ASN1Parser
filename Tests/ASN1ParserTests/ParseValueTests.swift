@@ -45,6 +45,7 @@ final class ParseValueTests: XCTestCase {
     XCTAssertThrowsError(try DERParser.parse(der: Data([DERParser.Tag.boolean.rawValue, 0x01, 0x10])))
     XCTAssertThrowsError(try DERParser.parse(der: Data([DERParser.Tag.boolean.rawValue, 0x01, 0xFE])))
     XCTAssertThrowsError(try DERParser.parse(der: Data([DERParser.Tag.boolean.rawValue, 0x01, 0xFF])))
+    XCTAssertThrowsError(try DERParser.parse(der: Data([DERParser.Tag.boolean.rawValue, 0x03, 0x00, 0x01, 0x00])))
   }
   
   func testParseInteger() throws {

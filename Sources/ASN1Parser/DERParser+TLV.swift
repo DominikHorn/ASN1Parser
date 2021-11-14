@@ -62,24 +62,18 @@ extension DERParser {
     let tag = try Tag(der, offset: &offset)
     let length = try Length(der, offset: &offset)
     
-    // special case: null value
-    if case tag = Tag.null {
-      guard length.value == 0 else {
-        throw ASN1ParsingError.invalidNull
-      }
-      return ASN1Null()
-    }
-    
     // perform bounds check before access
-    guard length.value > 0, length.value <= der.endIndex - offset else {
+    guard length.value <= der.endIndex - offset else {
       throw ASN1ParsingError.invalidTLVLength
     }
     
     // each tag identifies a specific ASN1Value
     var value: ASN1Value
-    let derView = der[offset..<(offset+length.value)]
+    let derView = length.value > 0 ? der[offset..<(offset+length.value)] : .init()
     
     switch tag {
+    case .null:
+      value = try ASN1Null(der: derView)
     case .boolean:
       value = try ASN1Boolean(der: derView)
     case .integer:
