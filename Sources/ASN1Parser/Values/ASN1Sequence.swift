@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  ASN1Sequence.swift
 //  
 //
 //  Created by Dominik Horn on 10.11.21.
@@ -7,7 +7,6 @@
 
 import Foundation
 
-/// https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-sequence
 public struct ASN1Sequence: ASN1Value {
   var values = [ASN1Value]()
   
@@ -22,20 +21,6 @@ public struct ASN1Sequence: ASN1Value {
     self.values = values
   }
 }
-
-extension ASN1Sequence: ASN1LoadFromDER {
-  init(der: Data) throws {
-    var offset = der.startIndex
-    while offset < der.endIndex {
-      values.append(try DERParser.parseTLV(der, offset: &offset))
-    }
-    
-    guard !values.isEmpty else {
-      throw ASN1ParsingError.invalidSequence
-    }
-  }
-}
-
 extension ASN1Sequence: Equatable {
   public static func == (lhs: ASN1Sequence, rhs: ASN1Sequence) -> Bool {
     guard lhs.values.count == rhs.values.count else { return false }
