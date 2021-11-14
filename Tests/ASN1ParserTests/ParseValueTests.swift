@@ -129,14 +129,25 @@ final class ParseValueTests: XCTestCase {
     var val: ASN1Value = try DERParser.parse(der: Data([DERParser.Tag.bitString.rawValue, 0x0F, 0x00] + bitstringData))
     XCTAssert(val is ASN1BitString)
     if let bitstring = val as? ASN1BitString {
+      XCTAssertEqual(bitstring.count, bitstringString.count)
       XCTAssertEqual(bitstring.value, Data(bitstringData))
       XCTAssertEqual(bitstring.string, bitstringString)
+      
+      bitstringString.enumerated().forEach { i, char in
+        XCTAssertEqual(Bool(char == "1"), bitstring[i])
+      }
     }
     
+    let shortenedBitstringString = String(bitstringString.dropLast(3))
     val = try DERParser.parse(der: Data([DERParser.Tag.bitString.rawValue, 0x0F, 0x03] + bitstringData))
     XCTAssert(val is ASN1BitString)
     if let bitstring = val as? ASN1BitString {
-      XCTAssertEqual(bitstring.string, String(bitstringString.dropLast(3)))
+      XCTAssertEqual(bitstring.count, shortenedBitstringString.count)
+      XCTAssertEqual(bitstring.string, shortenedBitstringString)
+      
+      shortenedBitstringString.enumerated().forEach { i, char in
+        XCTAssertEqual(Bool(char == "1"), bitstring[i])
+      }
     }
     
     // empty input
