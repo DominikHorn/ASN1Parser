@@ -45,7 +45,7 @@ final class EqualityTests: XCTestCase {
   }
   
   func testObjectIdentifierEquality() throws {
-    let oid1 = try ASN1ObjectIdentifier(id: "1.2.840.10045.3.1.7")
+    let oid1 = try ASN1ObjectIdentifier(oid: "1.2.840.10045.3.1.7")
     let oid2 = try ASN1ObjectIdentifier(nodes: [1, 2, 840, 10045, 3, 1, 7])
     
     let oid3 = try ASN1ObjectIdentifier(nodes: [1, 39, 840, 10045, 3, 1])

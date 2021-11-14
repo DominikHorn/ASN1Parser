@@ -8,13 +8,16 @@
 import Foundation
 import BigInt
 
+/// Each instance represents a single ASN.1 INTEGER value
 public struct ASN1Integer: ASN1Value {
   var swiftValue: BigInt
   
+  /// Construct an ASN.1 INTEGER from a swift Int value
   public init (_ swiftValue: Int) {
     self.swiftValue = BigInt(swiftValue)
   }
   
+  /// Construct an ASN.1 INTEGER from a BigInt, i.e., arbitray length Integer
   public init(_ swiftValue: BigInt) {
     self.swiftValue = swiftValue
   }

@@ -14,8 +14,8 @@ extension ASN1ObjectIdentifier: DERDecodable {
     let firstByte = try der.tryAccess(at: der.startIndex)
     
     // parse first byte
-    values.append(BigUInt(firstByte / 40))
-    values.append(BigUInt(firstByte % 40))
+    nodes.append(BigUInt(firstByte / 40))
+    nodes.append(BigUInt(firstByte % 40))
     
     // parse remaining bytes
     var baseOffset = der.startIndex + 1
@@ -45,7 +45,7 @@ extension ASN1ObjectIdentifier: DERDecodable {
         lastAvailable = (lastAvailable + 1) % 8
       }
       
-      values.append(BigUInt(Data(bytes)))
+      nodes.append(BigUInt(Data(bytes)))
       baseOffset = lastByteOffset + 1
     }
     

@@ -7,7 +7,15 @@
 
 import Foundation
 
+/// Parser for reading DER encoded ASN.1 data
 public struct DERParser {
+  /**
+   Parse DER encoded ASN.1 data into an ASN.1 value tree
+   
+   - Parameter der: binary data, that will be decoded in this order, e.g., starting at index der.startIndex an moving to der.endIndex
+   
+   - Throws ``ASN1ParsingError`` when parsing fails, e.g., due to invalid encoding
+   */
   public static func parse(der: Data) throws -> ASN1Value {
     var offset = der.startIndex
     return try parseTLV(der, offset: &offset)

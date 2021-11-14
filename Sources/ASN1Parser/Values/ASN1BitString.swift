@@ -7,9 +7,7 @@
 
 import Foundation
 
-/**
- Each instance represents a single ASN.1 BIT STRING value.
- */
+/// Each instance represents a single ASN.1 BIT STRING value
 public struct ASN1BitString: ASN1Value {
   /**
    Raw value of the BIT STRING.

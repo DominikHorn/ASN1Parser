@@ -7,6 +7,11 @@
 
 import Foundation
 
+/**
+ Generic ASN.1 value container, i.e., each ASN.1 Value conforms to this protocol
+ 
+ Use the provided methods and accessors to traverse the ASN.1 value tree
+ */
 public protocol ASN1Value {
   func isEqualTo(_ other: ASN1Value) -> Bool
 }
