@@ -33,7 +33,7 @@ public struct ASN1BitString: ASN1Value {
     get {
       // take unused bits into account
       let realIndex = index + lastUnused
-      return bytes[realIndex / 8].bit(at: realIndex % 8)
+      return bytes[realIndex / 8].bit(at: 7 - (realIndex % 8))
     }
   }
 }
