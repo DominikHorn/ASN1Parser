@@ -20,8 +20,4 @@ public struct DERParser {
     var offset = der.startIndex
     return try parseTLV(der, offset: &offset)
   }
-  
-//  // TODO(dominik): implement visitor pattern for ASN1 tree
-//  // TODO(dominik): access syntax value.sequence[1].bitstring
-//  public static func visit(_ value: ASN1Value, visitor: ASN1Visitor) {}
 }

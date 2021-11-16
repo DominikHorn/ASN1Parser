@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// Each instance represents a single ASN.1 Boolean value
+/// Represents an ASN.1 Boolean value
 public struct ASN1Boolean: ASN1Value {
   var swiftValue: Bool
   

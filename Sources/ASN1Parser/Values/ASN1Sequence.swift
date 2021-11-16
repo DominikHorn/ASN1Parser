@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// Each instance represents a single ASN.1 Sequence value
+/// Represents an ASN.1 Sequence value
 public struct ASN1Sequence: ASN1Value {
   /// ASN.1 values contained in this sequence in order
   public var values = [ASN1Value]()

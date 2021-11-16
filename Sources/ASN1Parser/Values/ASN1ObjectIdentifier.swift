@@ -8,7 +8,7 @@
 import Foundation
 import BigInt
 
-/// Each instance represents a single ASN.1 Object Identifier value
+/// Represents an ASN.1 Object Identifier value
 public struct ASN1ObjectIdentifier: ASN1Value {
   /// Individual object identifier nodes in order
   public var nodes = [BigUInt]()

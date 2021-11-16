@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// Each instance represents a single ASN.1 Bit String value
+/// Represents an ASN.1 Bit String value
 public struct ASN1BitString: ASN1Value {
   /**
    Raw bytes of the Bit String, encoded in little endian.

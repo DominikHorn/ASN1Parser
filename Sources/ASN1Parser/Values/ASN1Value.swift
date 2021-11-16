@@ -8,7 +8,7 @@
 import Foundation
 
 /**
- Generic ASN.1 value container, i.e., each ASN.1 Value conforms to this protocol
+ Generic ASN.1 value, i.e., each concrete ASN.1 Value conforms to this protocol
  
  Use the provided methods and accessors to traverse the ASN.1 value tree
  */

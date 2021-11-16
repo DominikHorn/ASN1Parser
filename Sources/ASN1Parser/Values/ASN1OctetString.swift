@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// Each instance represents a single ASN.1 Octet String value
+/// Represents an ASN.1 Octet String value
 public struct ASN1OctetString: ASN1Value {
   /// Raw bytes of the Octet String, encoded in little endian.
   public var bytes: [UInt8]

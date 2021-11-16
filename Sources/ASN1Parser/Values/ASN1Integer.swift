@@ -8,7 +8,7 @@
 import Foundation
 import BigInt
 
-/// Each instance represents a single ASN.1 Integer value
+/// Represents an ASN.1 Integer value
 public struct ASN1Integer: ASN1Value {
   var swiftValue: BigInt
   
