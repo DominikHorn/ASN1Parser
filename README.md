@@ -1,7 +1,7 @@
+# ASN1Parser
 ![tests](https://github.com/DominikHorn/ASN1Parser/actions/workflows/test.yml/badge.svg)
 ![coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/DominikHorn/abb8b96dc5a9b8354fb3d70216aedc7d/raw/coverage-badge.json)
 
-# ASN1Parser
 Safety first ASN.1 parsing in Swift.
 
 ## Documentation
