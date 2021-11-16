@@ -22,7 +22,7 @@ extension DERParser {
       if firstByte.bit(at: 7) {
         let trailingByteCount = Int(firstByte & ((0x1 << 7) - 1))
         
-        guard trailingByteCount < MemoryLayout<Int>.size else {
+        guard trailingByteCount > 0 && trailingByteCount < MemoryLayout<Int>.size else {
           throw ASN1DERParsingError.unsupportedTLVLength
         }
 

@@ -22,6 +22,11 @@ final class ParseValueTests: XCTestCase {
     XCTAssertThrowsError(try DERParser.parse(der: Data([DERParser.Tag.integer.rawValue, 0x02, 0x02])))
     XCTAssertThrowsError(try DERParser.parse(der: Data([DERParser.Tag.integer.rawValue, 0x03, 0x02])))
     XCTAssertThrowsError(try DERParser.parse(der: Data([DERParser.Tag.integer.rawValue, 0x01])))
+    
+    // cases that fail due to implementation constraints. I don't see how 2^64 bytes wouldn't
+    // suffice for any reasonable DER encoded ASN.1. Therefore I suspect that this is only theoretically
+    // available anyways.
+    XCTAssertThrowsError(try DERParser.parse(der: Data([DERParser.Tag.integer.rawValue, 0xFF])))
   }
   
   func testParseBoolean() throws {
