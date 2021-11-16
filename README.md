@@ -30,8 +30,23 @@ let q = try tree.asSequence[1].asBitString
 - **quick and easy** to use - immediately start parsing DER or BER encoded ASN.1 without any boilerplate
 - **implicit ASN.1 format specification** - no need worry about explicitely specifying the expected data format.
   Simply access values in the ASN.1 tree and dynamically receive errors if they are not available.
-  This architecture prevents accidental inconsistencies, e.g., when the code defining your expected
-  format is out of sync with the actual format used.
+
+Please note that the choice of implicit format specification is a deliberate
+one. I believe ASN.1 is not particularily suited to be 1:1 mapped to swift
+types. Therefore you will most likely have to introduce an abstraction layer,
+i.e., an explicit ASN.1 format specification in addition to the swift type
+defintion you'd ideally want to use throughout your remaining code. This
+abstraction layer is however unnecessary IMHO, as it only consists of
+boilerplate definitions and code for converting between the ASN.1 format and
+your swift type. In addition to the often wasteful and messy nature of
+boilerplate code, having two different abstractions for the same underlying
+concept can introduce inconsistencies and thus bugs.
+
+With implicit ASN.1 format specification, you can access ASN.1 data safely and
+quicker while not having having to worry about introducing any accidental
+inconsistencies in your codebase, because an additional abstraction layer won't
+exist. Simply define your desired type in swift and dynamically load its
+values from the decoded ASN.1 representation.
 
 ## Contributing
 Pull requests are of course are highly appreciated :)
