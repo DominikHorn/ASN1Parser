@@ -96,6 +96,11 @@ final class ConstructValueTests: XCTestCase {
     XCTAssertEqual(ASN1BitString(value: paddedData, paddingLength: 3).paddingLength, 3)
   }
   
+  func testConstructOctetString() throws {
+    let data: [UInt8] = [0x47, 0xeb, 0x99, 0x5a, 0xdf, 0x9e, 0x70, 0x0d, 0xfb, 0xa7, 0x31, 0x32, 0xc1, 0x5f]
+    XCTAssertEqual(ASN1OctetString(data).bytes, data)
+  }
+  
   func testConstructSequence() throws {
     XCTAssertThrowsError(try ASN1Sequence([]))
     

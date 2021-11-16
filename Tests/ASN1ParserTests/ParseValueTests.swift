@@ -158,6 +158,17 @@ final class ParseValueTests: XCTestCase {
     XCTAssertThrowsError(try DERParser.parse(der: Data([DERParser.Tag.bitString.rawValue, 0x01, 0x03])))
   }
   
+  func testParseOctetString() throws {
+    let data: [UInt8] = [0x47, 0xeb, 0x99, 0x5a, 0xdf, 0x9e, 0x70, 0x0d, 0xfb, 0xa7, 0x31, 0x32, 0xc1, 0x5f]
+    
+    let val: ASN1Value = try DERParser.parse(der: Data([DERParser.Tag.octetString.rawValue, 0x0E] + data))
+    XCTAssert(val is ASN1OctetString)
+    if let octetstring = val as? ASN1OctetString {
+      XCTAssertEqual(octetstring.count, data.count)
+      XCTAssertEqual(octetstring.bytes, data)
+    }
+  }
+  
   func testParseSequence() throws {
     // single element in sequence
     let val = try DERParser.parse(der: Data([

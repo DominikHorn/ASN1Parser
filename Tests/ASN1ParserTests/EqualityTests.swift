@@ -90,6 +90,21 @@ final class EqualityTests: XCTestCase {
     }
   }
   
+  func testOctedStringEquality() throws {
+    let data: [UInt8] = [0x47, 0xeb, 0x99, 0x5a, 0xdf, 0x9e, 0x70, 0x0d, 0xfb, 0xa7, 0x31, 0x32, 0xc1, 0x5f]
+    let reference1 = try DERParser.parse(der: Data([DERParser.Tag.octetString.rawValue, 0x0E] + data))
+    let reference2 = try DERParser.parse(der: Data([DERParser.Tag.octetString.rawValue, 0x0F] + data + [0x01]))
+
+    XCTAssert(reference1 is ASN1OctetString)
+    XCTAssert(reference2 is ASN1OctetString)
+    if let reference1 = reference1 as? ASN1OctetString, let reference2 = reference2 as? ASN1OctetString {
+      let bs1 = ASN1OctetString(data)
+      XCTAssertEqual(bs1, reference1)
+      XCTAssertNotEqual(bs1, reference2)
+      XCTAssertNotEqual(reference1, reference2)
+    }
+  }
+  
   func testSequenceEquality() throws {
     let seq = ASN1Sequence(ASN1Boolean(false))
     let seq2 = try DERParser.parse(der: Data([

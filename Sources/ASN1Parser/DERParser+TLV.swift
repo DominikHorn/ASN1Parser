@@ -32,6 +32,7 @@ extension DERParser {
       }
     }
   }
+  
   /// As documented in https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-encoded-tag-bytes
   enum Tag: UInt8 {
     case boolean = 0x01
@@ -82,6 +83,8 @@ extension DERParser {
       value = try ASN1ObjectIdentifier(der: derView)
     case .bitString:
       value = try ASN1BitString(der: derView)
+    case .octetString:
+      value = try ASN1OctetString(der: derView)
     case .sequence:
       value = try ASN1Sequence(der: derView)
     default:
