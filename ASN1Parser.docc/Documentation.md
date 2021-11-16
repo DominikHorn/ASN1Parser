@@ -32,6 +32,7 @@ let q = try tree.asSequence[1].asBitString
 - ``ASN1Null``
 - ``ASN1ObjectIdentifier``
 - ``ASN1BitString``
+- ``ASN1OctetString``
 - ``ASN1Sequence``
 
 ### Errors
