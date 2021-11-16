@@ -4,14 +4,14 @@
 ![coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/DominikHorn/abb8b96dc5a9b8354fb3d70216aedc7d/raw/coverage-badge.json)
 
 
-Safety first ASN.1 parsing in Swift. 
+Safety first ASN.1 parsing in Swift.
 
 ## Documentation
 You may find precompiled static site documentation hosted [here](https://dominikhorn.github.io/ASN1Parser/documentation/asn1parser/).
 Alternatively, you may import `ASN1Parser.docc` into Xcode, preview locally using `preview-doc.sh` or build the static
-site on your own using `gen-doc.sh`.  
+site on your own using `gen-doc.sh`.
 
-## Quick Start
+### Quick Start
 Given the a DER encoded ASN.1 representation of a public key, for example as found in `.pem` files:
 
 ```swift
@@ -26,6 +26,14 @@ let tree = try DERParser.parse(derData)
 let q = try tree.asSequence[1].asBitString
 ```
 
-## Contributing 
+### Feature Overview
+- type and runtime safe ASN.1 parsing - error handling enforced by the swift compiler
+- minimalistic - only contains the features you need
+- quick and easy to use - immediately start parsing DER or BER encoded ASN.1 without any boilerplate
+- implicit format specification - no need to specify the expected data format explicitely. Simply access values
+  in the ASN.1 tree and receive errors if they are not available. This architecture prevents accidental inconsistencies,
+  e.g., when the code defining your expected format is out of sync with the actual format used.
+
+## Contributing
 
 Pull requests are of course are highly appreciated :)
