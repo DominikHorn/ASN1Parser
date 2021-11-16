@@ -105,6 +105,28 @@ final class EqualityTests: XCTestCase {
     }
   }
   
+  func testUTF8StringEquality() throws {
+    let data: [UInt8] = [
+      0x76, 0x69, 0x63, 0x68, 0x33, 0x64, 0x2e, 0x6a,
+      0x64, 0x6f, 0x6d, 0x63, 0x73, 0x63, 0x2e, 0x6e
+    ]
+    let reference1 = try DERParser.parse(der: Data([DERParser.Tag.utf8String.rawValue, 0x10] + data))
+    let reference2 = try DERParser.parse(der: Data([DERParser.Tag.utf8String.rawValue, 0x00]))
+    
+    XCTAssert(reference1 is ASN1UTF8String)
+    XCTAssert(reference2 is ASN1UTF8String)
+    if let reference1 = reference1 as? ASN1UTF8String, let reference2 = reference2 as? ASN1UTF8String {
+      let bs1 = ASN1UTF8String("vich3d.jdomcsc.n")
+      let bs2 = ASN1UTF8String("")
+      
+      XCTAssertEqual(bs1, reference1)
+      XCTAssertNotEqual(bs1, reference2)
+      
+      XCTAssertEqual(bs2, reference2)
+      XCTAssertNotEqual(bs2, reference1)
+    }
+  }
+  
   func testSequenceEquality() throws {
     let seq = ASN1Sequence(ASN1Boolean(false))
     let seq2 = try DERParser.parse(der: Data([

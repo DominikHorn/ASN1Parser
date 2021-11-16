@@ -101,6 +101,11 @@ final class ConstructValueTests: XCTestCase {
     XCTAssertEqual(ASN1OctetString(data).bytes, data)
   }
   
+  func testConstructUTF8String() throws {
+    let testStr = "this is a TEST string 🤓"
+    XCTAssertEqual(ASN1UTF8String(testStr).value, testStr)
+  }
+  
   func testConstructSequence() throws {
     XCTAssertThrowsError(try ASN1Sequence([]))
     

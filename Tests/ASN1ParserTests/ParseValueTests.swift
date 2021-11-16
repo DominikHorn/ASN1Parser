@@ -169,6 +169,25 @@ final class ParseValueTests: XCTestCase {
     }
   }
   
+  func testParseUTF8String() throws {
+    let data: [UInt8] = [
+      0x76, 0x69, 0x63, 0x68, 0x33, 0x64, 0x2e, 0x6a,
+      0x64, 0x6f, 0x6d, 0x63, 0x73, 0x63, 0x2e, 0x6e
+    ]
+    
+    var val: ASN1Value = try DERParser.parse(der: Data([DERParser.Tag.utf8String.rawValue, 0x10] + data))
+    XCTAssert(val is ASN1UTF8String)
+    if let string = val as? ASN1UTF8String {
+      XCTAssertEqual(string.value, "vich3d.jdomcsc.n")
+    }
+    
+    val = try DERParser.parse(der: Data([DERParser.Tag.utf8String.rawValue, 0x00]))
+    XCTAssert(val is ASN1UTF8String)
+    if let string = val as? ASN1UTF8String {
+      XCTAssertEqual(string.value, "")
+    }
+  }
+  
   func testParseSequence() throws {
     // single element in sequence
     let val = try DERParser.parse(der: Data([
