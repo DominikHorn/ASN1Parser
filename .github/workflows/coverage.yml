@@ -12,8 +12,6 @@ jobs:
         run: swift test --enable-code-coverage --parallel
       - name: Export Coverage
         uses: mattpolzin/swift-codecov-action@0.6.0
-      - name: DEBUG
-        run: echo $CODECOV
       - name: Create Badge
         uses: schneegans/dynamic-badges-action@v1.1.0
         with:
