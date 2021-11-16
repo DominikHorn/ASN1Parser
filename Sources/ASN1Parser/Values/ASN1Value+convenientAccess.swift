@@ -40,7 +40,7 @@ public extension ASN1Value {
     get throws { try cast(self) }
   }
   
-  /// Try casting to ASN1BitString. Throws if cast fails
+  /// Try casting to ASN1OctetString. Throws if cast fails
   var asOctetString: ASN1OctetString {
     get throws { try cast(self) }
   }
