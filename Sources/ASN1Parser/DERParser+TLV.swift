@@ -43,7 +43,7 @@ extension DERParser {
     case objectIdentifier = 0x06
     case utf8String = 0x0C
     case sequence = 0x30
-//    case set = 0x31 // TODO: implement
+    case set = 0x31
     
     init(_ der: Data, offset: inout Data.Index) throws {
       let firstByte = try der.tryAccess(at: offset)
@@ -85,6 +85,8 @@ extension DERParser {
       value = try ASN1UTF8String(der: derView)
     case .sequence:
       value = try ASN1Sequence(der: derView)
+    case .set:
+      value = try ASN1Set(der: derView)
     }
     
     offset += length.value

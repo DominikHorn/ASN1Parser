@@ -54,4 +54,9 @@ public extension ASN1Value {
   var asSequence: ASN1Sequence {
     get throws { try cast(self) }
   }
+  
+  /// Try casting to ``ASN1Set`` Throws if cast fails
+  var asSet: ASN1Set {
+    get throws { try cast(self) }
+  }
 }

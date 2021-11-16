@@ -15,4 +15,5 @@ public enum ASN1ValueParsingError: Error {
   case invalidObjectIdentifier
   case invalidBitString
   case invalidSequence
+  case invalidSetElement
 }

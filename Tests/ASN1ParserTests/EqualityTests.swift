@@ -155,4 +155,33 @@ final class EqualityTests: XCTestCase {
       XCTAssertEqual(seq3, seq4)
     }
   }
+  
+  func testSetEquality() throws {
+    let set = ASN1Set(ASN1Boolean(false))
+    let set2 = try DERParser.parse(der: Data([
+      DERParser.Tag.set.rawValue, 0x03,
+        DERParser.Tag.boolean.rawValue, 0x01, 0x00
+    ]))
+    let set3 = ASN1Set(ASN1Boolean(false), ASN1Boolean(true), ASN1Boolean(false))
+    let set4 = try DERParser.parse(der: Data([
+      DERParser.Tag.set.rawValue, 0x09,
+        DERParser.Tag.boolean.rawValue, 0x01, 0x00,
+        DERParser.Tag.boolean.rawValue, 0x01, 0x00,
+        DERParser.Tag.boolean.rawValue, 0x01, 0x01
+    ]))
+    
+    XCTAssert(set2 is ASN1Set)
+    XCTAssert(set4 is ASN1Set)
+    
+    if let set2 = set2 as? ASN1Set, let set4 = set4 as? ASN1Set {
+      XCTAssertEqual(set, set2)
+      XCTAssertNotEqual(set, set3)
+      XCTAssertNotEqual(set, set4)
+      
+      XCTAssertNotEqual(set2, set3)
+      XCTAssertNotEqual(set2, set4)
+      
+      XCTAssertEqual(set3, set4)
+    }
+  }
 }

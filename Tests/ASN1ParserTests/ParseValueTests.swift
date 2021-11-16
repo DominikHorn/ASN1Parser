@@ -233,4 +233,47 @@ final class ParseValueTests: XCTestCase {
     // failed parsing - empty sequence
     XCTAssertThrowsError(try DERParser.parse(der: Data([DERParser.Tag.sequence.rawValue, 0x00])))
   }
+  
+  func testParseSet() throws {
+    // single element in sequence
+    let val = try DERParser.parse(der: Data([
+      DERParser.Tag.set.rawValue, 0x03,
+        DERParser.Tag.boolean.rawValue, 0x01, 0x01
+    ]))
+    XCTAssert(val is ASN1Set)
+    if let set = val as? ASN1Set {
+      XCTAssertEqual(set.count, 1)
+      XCTAssert(set.any is ASN1Boolean)
+      if let bool = set.any as? ASN1Boolean {
+        XCTAssertEqual(bool.swiftValue, true)
+      }
+    }
+    
+    // multiple elements in sequence
+    let val2 = try DERParser.parse(der: Data([
+      DERParser.Tag.set.rawValue, 0x09,
+        DERParser.Tag.boolean.rawValue, 0x01, 0x00,
+        DERParser.Tag.boolean.rawValue, 0x01, 0x01,
+        DERParser.Tag.boolean.rawValue, 0x01, 0x00
+    ]))
+    XCTAssert(val2 is ASN1Set)
+    if let set = val2 as? ASN1Set {
+      XCTAssertEqual(set.count, 3)
+      
+      var falseCnt = 0
+      var trueCnt = 0
+      set.all.forEach { bool in
+        XCTAssert(bool is ASN1Boolean)
+        if let bool = bool as? ASN1Boolean {
+          falseCnt += bool.swiftValue == false ? 1 : 0
+          trueCnt += bool.swiftValue == true ? 1 : 0
+        }
+      }
+      XCTAssert(trueCnt == 1)
+      XCTAssert(falseCnt == 2)
+    }
+    
+    // failed parsing - empty sequence
+    XCTAssertThrowsError(try DERParser.parse(der: Data([DERParser.Tag.set.rawValue, 0x00])))
+  }
 }

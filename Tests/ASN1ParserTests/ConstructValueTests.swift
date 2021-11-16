@@ -131,4 +131,30 @@ final class ConstructValueTests: XCTestCase {
     let seq5 = try ASN1Sequence([ASN1Boolean(true), ASN1Boolean(false), ASN1Boolean(false)])
     XCTAssertEqual(seq3, seq5)
   }
+  
+  func testConstructSet() throws {
+    XCTAssertThrowsError(try ASN1Set([]))
+    
+    let set = ASN1Set(ASN1Boolean(false))
+    XCTAssertEqual(set.count, 1)
+    XCTAssert(set.any is ASN1Boolean)
+    if let bool = set.any as? ASN1Boolean {
+      XCTAssertEqual(bool.swiftValue, false)
+    }
+    
+    let set2 = try ASN1Set([ASN1Boolean(false)])
+    XCTAssertEqual(set, set2)
+    
+    let set3 = ASN1Set(ASN1Boolean(true), ASN1Boolean(false), ASN1Boolean(false))
+    XCTAssertEqual(set3.count, 3)
+    set3.all.forEach { val in
+      XCTAssert(val is ASN1Boolean)
+    }
+    
+    let  set4 = try ASN1Set([ASN1Boolean(true), ASN1Boolean(false)])
+    XCTAssertNotEqual(set3, set4)
+    
+    let set5 = try ASN1Set([ASN1Boolean(false), ASN1Boolean(false), ASN1Boolean(true)])
+    XCTAssertEqual(set3, set5)
+  }
 }
