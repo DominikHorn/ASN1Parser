@@ -3,14 +3,13 @@ import XCTest
 
 final class FullParseTests: XCTestCase {
   func testParsingECPublicKeyDER() throws {
-    guard let derData = Data(base64Encoded: "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEQPtmXeh4gkzq30Zq3LXdgcl39fgCOBRZExhNWgZTSv5NTvbRoZNx28Ln/+Wtkfc42nWdunurluAeMPr0BrnLtA==")
-    else {
-      XCTFail()
-      return
-    }
+    let derData = Data(base64Encoded: "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEQPtmXeh4gkzq30Zq3LXdgcl39fgCOBRZExhNWgZTSv5NTvbRoZNx28Ln/+Wtkfc42nWdunurluAeMPr0BrnLtA==")
+    XCTAssertNotNil(derData)
     
-    let tree = try DERParser.parse(der: derData)
-    print(try tree.asSequence[1].asBitString)
+    if let derData = derData {
+      let tree = try DERParser.parse(der: derData)
+      print(try tree.asSequence[1].asBitString)
+    }
   }
   
   func testRandomDER() throws {

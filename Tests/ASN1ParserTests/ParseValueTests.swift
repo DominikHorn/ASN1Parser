@@ -218,19 +218,10 @@ final class ParseValueTests: XCTestCase {
     XCTAssert(val2 is ASN1Sequence)
     if let sequence = val2 as? ASN1Sequence {
       XCTAssertEqual(sequence.values.count, 3)
-      sequence.values.enumerated().forEach { i, bool in
+      zip(sequence.values, [false, true, false]).forEach { bool, expected in
         XCTAssert(bool is ASN1Boolean)
         if let bool = bool as? ASN1Boolean {
-          switch i {
-          case 0:
-            XCTAssertEqual(bool.swiftValue, false)
-          case 1:
-            XCTAssertEqual(bool.swiftValue, true)
-          case 2:
-            XCTAssertEqual(bool.swiftValue, false)
-          default:
-            XCTFail()
-          }
+          XCTAssertEqual(bool.swiftValue, expected)
         }
       }
     }
