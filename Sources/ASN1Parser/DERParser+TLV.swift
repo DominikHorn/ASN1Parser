@@ -42,12 +42,8 @@ extension DERParser {
     case null = 0x05
     case objectIdentifier = 0x06
     case utf8String = 0x0C
-    case printableString = 0x13
-    case teletexString = 0x14
-    case ia5String = 0x16
     case sequence = 0x30
-    case set = 0x31
-    case bmpString = 0x1E
+//    case set = 0x31 // TODO: implement
     
     init(_ der: Data, offset: inout Data.Index) throws {
       let firstByte = try der.tryAccess(at: offset)
@@ -89,17 +85,9 @@ extension DERParser {
       value = try ASN1UTF8String(der: derView)
     case .sequence:
       value = try ASN1Sequence(der: derView)
-    default:
-      throw ASN1UnimplementedError(tag: tag, length: length, value: derView)
     }
     
     offset += length.value
     return value
-  }
-  
-  struct ASN1UnimplementedError: Error {
-    var tag: DERParser.Tag
-    var length: DERParser.Length
-    var value: Data
   }
 }
