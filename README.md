@@ -1,9 +1,7 @@
-# ASN1Parser
-
 ![tests](https://github.com/DominikHorn/ASN1Parser/actions/workflows/test.yml/badge.svg)
 ![coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/DominikHorn/abb8b96dc5a9b8354fb3d70216aedc7d/raw/coverage-badge.json)
 
-
+# ASN1Parser
 Safety first ASN.1 parsing in Swift.
 
 ## Documentation
@@ -27,13 +25,13 @@ let q = try tree.asSequence[1].asBitString
 ```
 
 ### Feature Overview
-- type and runtime safe ASN.1 parsing - error handling enforced by the swift compiler
-- minimalistic - only contains the features you need
-- quick and easy to use - immediately start parsing DER or BER encoded ASN.1 without any boilerplate
-- implicit format specification - no need to specify the expected data format explicitely. Simply access values
-  in the ASN.1 tree and receive errors if they are not available. This architecture prevents accidental inconsistencies,
-  e.g., when the code defining your expected format is out of sync with the actual format used.
+- **runtime safe** ASN.1 parsing - error handling enforced by the swift compiler
+- **minimalistic** - only contains the features you need
+- **quick and easy** to use - immediately start parsing DER or BER encoded ASN.1 without any boilerplate
+- **implicit ASN.1 format specification** - no need worry about explicitely specifying the expected data format.
+  Simply access values in the ASN.1 tree and dynamically receive errors if they are not available.
+  This architecture prevents accidental inconsistencies, e.g., when the code defining your expected
+  format is out of sync with the actual format used.
 
 ## Contributing
-
 Pull requests are of course are highly appreciated :)
