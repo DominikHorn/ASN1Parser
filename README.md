@@ -6,8 +6,8 @@ Safety first ASN.1 parsing in Swift.
 
 ## Documentation
 You may import `ASN1Parser.docc` into Xcode, preview locally using `preview-doc.sh` or build a static
-site doc on your own using `gen-doc.sh`. Note that this static site sadly not hostable via
-github pages due to its case sensitivity.
+website version on your own using `gen-doc.sh`. Note that the static site is sadly not hostable via
+github pages due to its case insensitivity.
 
 ### Quick Start
 Given the a DER encoded ASN.1 representation of a public key, for example as found in `.pem` files:
