@@ -7,18 +7,18 @@ import BigInt
 final class ConstructValueTests: XCTestCase {
   func testConstructBoolean() throws {
     let bool = ASN1Boolean(true)
-    XCTAssertEqual(bool.swiftValue, true)
+    XCTAssertEqual(bool.value, true)
     
     let bool2 = ASN1Boolean(false)
-    XCTAssertEqual(bool2.swiftValue, false)
+    XCTAssertEqual(bool2.value, false)
   }
   
   func testConstructInteger() throws {
     let int = ASN1Integer(1337)
-    XCTAssertEqual(int.swiftValue, 1337)
+    XCTAssertEqual(int.value, 1337)
     
     let int2 = ASN1Integer(-50)
-    XCTAssertEqual(int2.swiftValue, -50)
+    XCTAssertEqual(int2.value, -50)
     
     let longUIntData = Data([
       0x8f, 0xe2, 0x41, 0x2a, 0x08, 0xe8, 0x51, 0xa8,
@@ -39,7 +39,7 @@ final class ConstructValueTests: XCTestCase {
       0x3a, 0x37, 0x42, 0x45, 0x75, 0xdc, 0x90, 0x65
     ])
     let int3 = ASN1Integer(BigInt(longUIntData))
-    XCTAssertEqual(int3.swiftValue, BigInt(longUIntData))
+    XCTAssertEqual(int3.value, BigInt(longUIntData))
   }
   
   func testConstructNull() throws {
@@ -113,7 +113,7 @@ final class ConstructValueTests: XCTestCase {
     XCTAssertEqual(seq.values.count, 1)
     XCTAssert(seq.values.first is ASN1Boolean)
     if let bool = seq.values.first as? ASN1Boolean {
-      XCTAssertEqual(bool.swiftValue, false)
+      XCTAssertEqual(bool.value, false)
     }
     
     let seq2 = try ASN1Sequence([ASN1Boolean(false)])
@@ -139,7 +139,7 @@ final class ConstructValueTests: XCTestCase {
     XCTAssertEqual(set.count, 1)
     XCTAssert(set.any is ASN1Boolean)
     if let bool = set.any as? ASN1Boolean {
-      XCTAssertEqual(bool.swiftValue, false)
+      XCTAssertEqual(bool.value, false)
     }
     
     let set2 = try ASN1Set([ASN1Boolean(false)])
@@ -147,7 +147,7 @@ final class ConstructValueTests: XCTestCase {
     
     let set3 = ASN1Set(ASN1Boolean(true), ASN1Boolean(false), ASN1Boolean(false))
     XCTAssertEqual(set3.count, 3)
-    set3.all.forEach { val in
+    set3.values.forEach { val in
       XCTAssert(val is ASN1Boolean)
     }
     
