@@ -26,9 +26,9 @@ extension ASN1Integer: DERDecodable {
       var bytes = [UInt8](dataView)
       bytes[0] &= (0x1 << 7) - 1
       
-      swiftValue = BigInt(sign: .minus, magnitude: BigUInt(Data(bytes)))
+      value = BigInt(sign: .minus, magnitude: BigUInt(Data(bytes)))
     } else {
-      swiftValue = BigInt(sign: .plus, magnitude: BigUInt(dataView))
+      value = BigInt(sign: .plus, magnitude: BigUInt(dataView))
     }
   }
 }
