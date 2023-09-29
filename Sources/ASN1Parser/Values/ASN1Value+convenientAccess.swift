@@ -49,6 +49,11 @@ public extension ASN1Value {
   var asUTF8String: ASN1UTF8String {
     get throws { try cast(self) }
   }
+    
+  /// Try casting to ``ASN1UTF8String`` Throws if cast fails
+  var asPrintableString: ASN1PrintableString {
+    get throws { try cast(self) }
+  }
   
   /// Try casting to ``ASN1Sequence`` Throws if cast fails
   var asSequence: ASN1Sequence {
