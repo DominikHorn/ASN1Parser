@@ -19,6 +19,6 @@ extension ASN1Boolean: DERDecodable {
       throw ASN1ValueParsingError.invalidBoolean
     }
     
-    swiftValue = byte != 0
+    value = byte != 0
   }
 }
