@@ -34,14 +34,14 @@ final class ParseValueTests: XCTestCase {
     var val: ASN1Value = try DERParser.parse(der: Data([DERParser.Tag.boolean.rawValue, 0x01, 0x00]))
     XCTAssert(val is ASN1Boolean)
     if let bool = val as? ASN1Boolean {
-      XCTAssertEqual(bool.swiftValue, false)
+      XCTAssertEqual(bool.value, false)
     }
     
     // true value
     val = try DERParser.parse(der: Data([DERParser.Tag.boolean.rawValue, 0x01, 0x01]))
     XCTAssert(val is ASN1Boolean)
     if let bool = val as? ASN1Boolean {
-      XCTAssertEqual(bool.swiftValue, true)
+      XCTAssertEqual(bool.value, true)
     }
     
     // failed parsing wrong bool values
@@ -57,13 +57,13 @@ final class ParseValueTests: XCTestCase {
     var val: ASN1Value = try DERParser.parse(der: Data([DERParser.Tag.integer.rawValue, 0x01, 0x03]))
     XCTAssert(val is ASN1Integer)
     if let int = val as? ASN1Integer {
-      XCTAssertEqual(int.swiftValue, 3)
+      XCTAssertEqual(int.value, 3)
     }
 
     val = try DERParser.parse(der: Data([DERParser.Tag.integer.rawValue, 0x01, 0x85]))
     XCTAssert(val is ASN1Integer)
     if let int = val as? ASN1Integer {
-      XCTAssertEqual(int.swiftValue, -5)
+      XCTAssertEqual(int.value, -5)
     }
     
     let longUIntData: [UInt8] = [
@@ -89,7 +89,7 @@ final class ParseValueTests: XCTestCase {
     XCTAssert(val is ASN1Integer)
     if let int = val as? ASN1Integer {
       let referenceVal = BigInt(sign: .plus, magnitude: BigUInt(Data(longUIntData)))
-      XCTAssertEqual(referenceVal, int.swiftValue)
+      XCTAssertEqual(referenceVal, int.value)
     }
   }
   
@@ -105,19 +105,19 @@ final class ParseValueTests: XCTestCase {
     var val: ASN1Value = try DERParser.parse(der: Data([DERParser.Tag.objectIdentifier.rawValue, 0x07, 0x2A, 0x86, 0x48, 0xCE, 0x3D, 0x02, 0x01]))
     XCTAssert(val is ASN1ObjectIdentifier)
     if let objectID = val as? ASN1ObjectIdentifier {
-      XCTAssertEqual(objectID.id, "1.2.840.10045.2.1")
+      XCTAssertEqual(objectID.value, "1.2.840.10045.2.1")
     }
     
     val = try DERParser.parse(der: Data([DERParser.Tag.objectIdentifier.rawValue, 0x08, 0x2A, 0x86, 0x48, 0xCE, 0x3D, 0x03, 0x01, 0x07]))
     XCTAssert(val is ASN1ObjectIdentifier)
     if let objectID = val as? ASN1ObjectIdentifier {
-      XCTAssertEqual(objectID.id, "1.2.840.10045.3.1.7")
+      XCTAssertEqual(objectID.value, "1.2.840.10045.3.1.7")
     }
     
     val = try DERParser.parse(der: Data([DERParser.Tag.objectIdentifier.rawValue, 0x09, 0x2b, 0x06, 0x01, 0x04, 0x01, 0x82, 0x37, 0x15, 0x14]))
     XCTAssert(val is ASN1ObjectIdentifier)
     if let objectID = val as? ASN1ObjectIdentifier {
-      XCTAssertEqual(objectID.id, "1.3.6.1.4.1.311.21.20")
+      XCTAssertEqual(objectID.value, "1.3.6.1.4.1.311.21.20")
     }
     
     
@@ -204,7 +204,7 @@ final class ParseValueTests: XCTestCase {
       XCTAssertEqual(sequence.values.count, 1)
       XCTAssert(sequence.values.first is ASN1Boolean)
       if let bool = sequence.values.first as? ASN1Boolean {
-        XCTAssertEqual(bool.swiftValue, true)
+        XCTAssertEqual(bool.value, true)
       }
     }
     
@@ -221,7 +221,7 @@ final class ParseValueTests: XCTestCase {
       zip(sequence.values, [false, true, false]).forEach { bool, expected in
         XCTAssert(bool is ASN1Boolean)
         if let bool = bool as? ASN1Boolean {
-          XCTAssertEqual(bool.swiftValue, expected)
+          XCTAssertEqual(bool.value, expected)
         }
       }
     }
@@ -241,7 +241,7 @@ final class ParseValueTests: XCTestCase {
       XCTAssertEqual(set.count, 1)
       XCTAssert(set.any is ASN1Boolean)
       if let bool = set.any as? ASN1Boolean {
-        XCTAssertEqual(bool.swiftValue, true)
+        XCTAssertEqual(bool.value, true)
       }
     }
     
@@ -258,11 +258,11 @@ final class ParseValueTests: XCTestCase {
       
       var falseCnt = 0
       var trueCnt = 0
-      set.all.forEach { bool in
+      set.values.forEach { bool in
         XCTAssert(bool is ASN1Boolean)
         if let bool = bool as? ASN1Boolean {
-          falseCnt += bool.swiftValue == false ? 1 : 0
-          trueCnt += bool.swiftValue == true ? 1 : 0
+          falseCnt += bool.value == false ? 1 : 0
+          trueCnt += bool.value == true ? 1 : 0
         }
       }
       XCTAssert(trueCnt == 1)

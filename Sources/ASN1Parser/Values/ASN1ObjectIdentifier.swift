@@ -14,7 +14,7 @@ public struct ASN1ObjectIdentifier: ASN1Value {
   public var nodes = [BigUInt]()
   
   /// Canonical string representation, separating nodes by a single '.' each
-  public var id: String {
+  public var value: String {
     nodes.map {
       "\($0)"
     }.joined(separator: ".")
@@ -59,6 +59,6 @@ extension ASN1ObjectIdentifier: Equatable {}
 
 extension ASN1ObjectIdentifier: CustomStringConvertible {
   public var description: String {
-    "OBJECT IDENTIFIER = \(id)"
+    "OBJECT IDENTIFIER = \(value)"
   }
 }

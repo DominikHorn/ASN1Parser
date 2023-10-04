@@ -56,7 +56,7 @@ public struct ASN1Set: ASN1Value {
   }
   
   /// Returns all values of the set in any order
-  public var all: [ASN1Value] {
+  public var values: [ASN1Value] {
     [first] + remaining
   }
 }
@@ -67,8 +67,8 @@ extension ASN1Set: Equatable {
     guard lhs.count == rhs.count else { return false }
     
     // check must be more complicated since order is technically irrelevant
-    var otherVals = rhs.all
-    return lhs.all.allSatisfy { val in
+    var otherVals = rhs.values
+    return lhs.values.allSatisfy { val in
       guard let ind = otherVals.firstIndex(where: { val.isEqualTo($0) }) else { return false }
       otherVals.remove(at: ind)
       return true
@@ -78,6 +78,6 @@ extension ASN1Set: Equatable {
 
 extension ASN1Set: CustomStringConvertible {
   public var description: String {
-    "SET:\n" + all.map { "\t\($0)".replacingOccurrences(of: "\n", with: "\n\t") }.joined(separator: "\n")
+    "SET:\n" + values.map { "\t\($0)".replacingOccurrences(of: "\n", with: "\n\t") }.joined(separator: "\n")
   }
 }
